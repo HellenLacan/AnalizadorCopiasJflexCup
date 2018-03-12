@@ -19,9 +19,6 @@ parser code
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
         System.out.println("\t\tColumna: "+columna);
-
-        
-        
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
@@ -35,9 +32,6 @@ parser code
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+fila);
         System.out.println("\t\tColumna: "+columna);
-
-   
-     
     }
 :}
 
@@ -48,7 +42,13 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 //------> declaracion de terminales 
 terminal mas,menos,por,div,para,parc,num;
-
+terminal import, class,
+         int, bool, string, chaar, doublee, object,
+         iff, elsee, for, whilee, doo, swiitch,
+         priivate, puublic, prootected, fiinal,
+         asterisco, pto, ptoYcoma, corcha, corchc, para, parc,
+         mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
+         mas, menos, por, div;
 
 //------> declaracion de no terminales
 non terminal String INICIO,E;
