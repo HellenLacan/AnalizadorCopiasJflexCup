@@ -42,7 +42,6 @@ numero = [0-9]+
 "double"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.doublee, yycolumn, yyline, yytext()); }
 "Object"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.object, yycolumn, yyline, yytext()); }
 
-"If"        { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.if, yycolumn, yyline, yytext()); }
 "if"        { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.iff, yycolumn, yyline, yytext()); }
 "else"      { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.elsee, yycolumn, yyline, yytext()); }
 "for"       { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.foor, yycolumn, yyline, yytext()); }
@@ -50,21 +49,31 @@ numero = [0-9]+
 "do"        { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.doo, yycolumn, yyline, yytext()); }
 "switch"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.swiitch, yycolumn, yyline, yytext()); }
 
+"private"   { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.priivate, yycolumn, yyline, yytext()); }
+"public"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.puublic, yycolumn, yyline, yytext()); }
+"protected" { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
+"final"     { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
 
 "*"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.asterisco, yycolumn, yyline, yytext()); }
 "."         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
-"{"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.corchAb, yycolumn, yyline, yytext()); }
-"}"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.corchCerr, yycolumn, yyline, yytext()); }
-"="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.asignacion, yycolumn, yyline, yytext()); }
+"{"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.corcha, yycolumn, yyline, yytext()); }
+"}"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.corchc, yycolumn, yyline, yytext()); }
+"("         { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos.para, yycolumn, yyline, yytext()); }
+")"         { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
 
+">"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mayor, yycolumn, yyline, yytext()); }
+"<"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.menor, yycolumn, yyline, yytext()); }
+"="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.asignacion, yycolumn, yyline, yytext()); }
+">="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mayorQ, yycolumn, yyline, yytext()); }
+"<="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.menorQ, yycolumn, yyline, yytext()); }
+"!="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.distinto, yycolumn, yyline, yytext()); }
+"=="         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.iguala, yycolumn, yyline, yytext()); }
 
 "+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
 "-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
 "*"         { System.out.println("Reconocio "+yytext()+" por"); return new Symbol(Simbolos.por, yycolumn, yyline, yytext()); }
 "/"         { System.out.println("Reconocio "+yytext()+" div"); return new Symbol(Simbolos.div, yycolumn, yyline, yytext()); }
-"("         { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos.para, yycolumn, yyline, yytext()); }
-")"         { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
  {numero}    { System.out.println("Reconocio "+yytext()+" num"); return new Symbol(Simbolos.num, yycolumn, yyline, yytext()); }
