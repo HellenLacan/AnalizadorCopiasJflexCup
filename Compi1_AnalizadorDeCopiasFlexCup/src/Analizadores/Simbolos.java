@@ -8,52 +8,54 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int pto = 21;
-  public static final int bool = 5;
-  public static final int doo = 14;
-  public static final int distinto = 32;
-  public static final int puublic = 17;
-  public static final int ptoYcoma = 22;
-  public static final int doublee = 8;
-  public static final int prootected = 18;
-  public static final int swiitch = 15;
-  public static final int string = 6;
+  public static final int pto = 22;
+  public static final int bool = 6;
+  public static final int doo = 15;
+  public static final int distinto = 33;
+  public static final int puublic = 18;
+  public static final int ptoYcoma = 23;
+  public static final int doublee = 9;
+  public static final int prootected = 19;
+  public static final int swiitch = 16;
+  public static final int string = 7;
   public static final int iimport = 2;
-  public static final int llavec = 24;
-  public static final int llavea = 23;
-  public static final int elsee = 11;
+  public static final int llavec = 25;
+  public static final int llavea = 24;
+  public static final int elsee = 12;
   public static final int claass = 3;
-  public static final int menos = 35;
-  public static final int mayorQ = 30;
-  public static final int menor = 28;
-  public static final int iff = 10;
-  public static final int fiinal = 19;
+  public static final int menos = 36;
+  public static final int mayorQ = 31;
+  public static final int menor = 29;
+  public static final int iff = 11;
+  public static final int fiinal = 20;
   public static final int EOF = 0;
-  public static final int parc = 26;
-  public static final int mas = 34;
-  public static final int chaar = 7;
-  public static final int whilee = 13;
-  public static final int para = 25;
+  public static final int parc = 27;
+  public static final int mas = 35;
+  public static final int chaar = 8;
+  public static final int whilee = 14;
+  public static final int para = 26;
   public static final int error = 1;
-  public static final int iguala = 33;
-  public static final int mayor = 27;
-  public static final int foor = 12;
-  public static final int por = 36;
-  public static final int id = 39;
-  public static final int object = 9;
-  public static final int priivate = 16;
-  public static final int iint = 4;
-  public static final int menorQ = 31;
-  public static final int asterisco = 20;
-  public static final int div = 37;
-  public static final int num = 38;
-  public static final int asignacion = 29;
-  public static final int decimal = 40;
+  public static final int iguala = 34;
+  public static final int mayor = 28;
+  public static final int foor = 13;
+  public static final int por = 37;
+  public static final int id = 40;
+  public static final int object = 10;
+  public static final int priivate = 17;
+  public static final int voiid = 4;
+  public static final int iint = 5;
+  public static final int menorQ = 32;
+  public static final int asterisco = 21;
+  public static final int div = 38;
+  public static final int num = 39;
+  public static final int asignacion = 30;
+  public static final int decimal = 41;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "iimport",
   "claass",
+  "voiid",
   "iint",
   "bool",
   "string",

@@ -42,7 +42,7 @@ action code
 
 /*************************************  2da Area: Declaraciones **************************************/
 //------> declaracion de terminales 
-terminal iimport, claass,
+terminal iimport, claass, voiid,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal,
@@ -53,7 +53,7 @@ terminal iimport, claass,
 
 //------> declaracion de no terminales
 non terminal String INICIO,E,
-             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD;
+             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD, METODOS;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
@@ -67,8 +67,14 @@ INICIO::=PRINCIPALES:a {: :};
 
 PRINCIPALES::=  PRINCIPALES IMPORT
                |PRINCIPALES CLASS
+               |PRINCIPALES METODOS
                |IMPORT
                |CLASS
+               |METODOS
+;
+
+METODOS::= VISIBILIDAD voiid id para parc llavea llavec
+          |voiid id para parc llavea llavec
 ;
 
 CLASS::= VISIBILIDAD claass id llavea llavec
@@ -95,4 +101,6 @@ E::= E:a mas E:b {::}
     |E:a por E:b {::}
     |para E:a parc {:  :}
     |num:a {::}
+    |id
+    |decimal
     |error;

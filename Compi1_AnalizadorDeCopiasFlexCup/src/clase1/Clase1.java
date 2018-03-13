@@ -7,17 +7,87 @@ package clase1;
 
 /**
  *
- * @author jorge
- */
-public class Clase1 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        ventana1 vb = new ventana1();
-        vb.setVisible(true);
-    }
-    
+ * @author jorge*/
+ import  java.awt.Color ;
+ 
+import  javax.swing.JFrame ; 
+import  javax.swing.JScrollPane ; 
+import  javax.swing.JTextArea ; 
+import  javax.swing.event.DocumentEvent ; 
+import  javax.swing.event.DocumentListener ; 
+import  javax.swing.text.Element ;
+ 
+ import java.awt.Color;
+ 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Element;
+ 
+ 
+public class Clase1 extends JFrame{
+	private static JTextArea area1;
+	private static JTextArea lines;
+ 
+	public Clase1(){
+		super("Line Numbering Example");
+	}
+ 
+	public static void createAndShowGUI(){
+		JFrame frame = new Clase1();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 
+		JScrollPane jsp = new JScrollPane();
+		area1 = new JTextArea();
+		lines = new JTextArea("1");
+ 
+		lines.setBackground(Color.cyan);
+		lines.setEditable(false);
+ 
+		area1.getDocument().addDocumentListener(new DocumentListener(){
+			public String getText(){
+				int caretPosition = area1.getDocument().getLength();
+				Element root = area1.getDocument().getDefaultRootElement();
+				String text = "1" + System.getProperty("line.separator");
+				for(int i = 2; i < root.getElementIndex( caretPosition ) + 2; i++){
+					text += i + System.getProperty("line.separator");
+				}
+				return text;
+			}
+			@Override
+			public void changedUpdate(DocumentEvent de) {
+				lines.setText(getText());
+			}
+ 
+			@Override
+			public void insertUpdate(DocumentEvent de) {
+				lines.setText(getText());
+			}
+ 
+			@Override
+			public void removeUpdate(DocumentEvent de) {
+				lines.setText(getText());
+			}
+ 
+		});
+ 
+		jsp.getViewport().add(area1);
+		jsp.setRowHeaderView(lines);
+		jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+ 
+		frame.add(jsp);
+		frame.pack();
+		frame.setSize(500,500);
+		frame.setVisible(true);
+	}
+ 
+	public static void main(String[] args){
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+	}
 }

@@ -37,6 +37,8 @@ decimal = [0-9]+ . [0-9]+
 
 "Import"    { System.out.println("Reconocio "+yytext()+" Import"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
 "class"     { System.out.println("Reconocio "+yytext()+" Class"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
+"void"     { System.out.println("Reconocio "+yytext()+" void"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
+
 
 "int"       { System.out.println("Reconocio "+yytext()+" int"); return new Symbol(Simbolos.iint, yycolumn, yyline, yytext()); }
 "boolean"   { System.out.println("Reconocio "+yytext()+" boolean"); return new Symbol(Simbolos.bool, yycolumn, yyline, yytext()); }
