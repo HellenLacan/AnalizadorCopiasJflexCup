@@ -1,9 +1,10 @@
-/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+/****************************************  1ra Area: Codigo de Usuario *******************************************/
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
 
-//------> Codigo para el parser,variables, metodos
+/**********************************  Codigo para el parser, variables, metodos **********************************/
+
 parser code
 {:
     public String resultado="";
@@ -35,22 +36,24 @@ parser code
     }
 :}
 
-//------> Codigo para las acciones gramaticales
+/************************************* Codigo para las acciones gramaticales *********************************/
 action code
 {::}
 
-/*--------------- 2da Area: Declaraciones -----------------------*/
+/*************************************  2da Area: Declaraciones **************************************/
 //------> declaracion de terminales 
 terminal iimport, claass,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal,
-         asterisco, pto, ptoYcoma, corcha, corchc, para, parc,
+         asterisco, pto, ptoYcoma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
-         mas, menos, por, div,num;
+         mas, menos, por, div,
+         num, id,decimal;
 
 //------> declaracion de no terminales
-non terminal String INICIO,E;
+non terminal String INICIO,E,
+             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
@@ -58,8 +61,33 @@ precedence left por, div;
 
 start with INICIO;
 
-/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
-INICIO::=E:a {: resultado=a; System.out.println(a); :};
+/*************************************  23a area: Reglas Semanticas **************************************/
+
+INICIO::=PRINCIPALES:a {: :};
+
+PRINCIPALES::=  PRINCIPALES IMPORT
+               |PRINCIPALES CLASS
+               |IMPORT
+               |CLASS
+;
+
+CLASS::= VISIBILIDAD claass id llavea llavec
+        |claass id llavea llavec
+;
+
+IMPORT::= iimport IMPORTS1 ptoYcoma
+;
+
+IMPORTS1::= IMPORTS1 pto id
+           |IMPORTS1 pto por
+           |id
+;
+
+VISIBILIDAD::= priivate
+              |puublic
+              |prootected
+              |fiinal
+;
 
 E::= E:a mas E:b {::}
     |E:a menos E:b {::}
