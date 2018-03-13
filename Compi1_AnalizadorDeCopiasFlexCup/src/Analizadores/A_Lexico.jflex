@@ -35,32 +35,33 @@ decimal = [0-9]+ . [0-9]+
 
 //-----> Simbolos
 
-"Import"    { System.out.println("Reconocio "+yytext()+" Import"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
-"class"     { System.out.println("Reconocio "+yytext()+" Class"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
-"void"     { System.out.println("Reconocio "+yytext()+" void"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
+"Import"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
+"class"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
+"void"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
 
 
-"int"       { System.out.println("Reconocio "+yytext()+" int"); return new Symbol(Simbolos.iint, yycolumn, yyline, yytext()); }
-"boolean"   { System.out.println("Reconocio "+yytext()+" boolean"); return new Symbol(Simbolos.bool, yycolumn, yyline, yytext()); }
-"String"    { System.out.println("Reconocio "+yytext()+" String"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext()); }
-"char"      { System.out.println("Reconocio "+yytext()+" char"); return new Symbol(Simbolos.chaar, yycolumn, yyline, yytext()); }
-"double"    { System.out.println("Reconocio "+yytext()+" double"); return new Symbol(Simbolos.doublee, yycolumn, yyline, yytext()); }
-"Object"    { System.out.println("Reconocio "+yytext()+" Object"); return new Symbol(Simbolos.object, yycolumn, yyline, yytext()); }
+"int"       { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iint, yycolumn, yyline, yytext()); }
+"boolean"   { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.bool, yycolumn, yyline, yytext()); }
+"String"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext()); }
+"char"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.chaar, yycolumn, yyline, yytext()); }
+"double"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.doublee, yycolumn, yyline, yytext()); }
+"Object"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.object, yycolumn, yyline, yytext()); }
 
-"if"        { System.out.println("Reconocio "+yytext()+" if"); return new Symbol(Simbolos.iff, yycolumn, yyline, yytext()); }
-"else"      { System.out.println("Reconocio "+yytext()+" else"); return new Symbol(Simbolos.elsee, yycolumn, yyline, yytext()); }
-"for"       { System.out.println("Reconocio "+yytext()+" for"); return new Symbol(Simbolos.foor, yycolumn, yyline, yytext()); }
-"while"     { System.out.println("Reconocio "+yytext()+" while"); return new Symbol(Simbolos.whilee, yycolumn, yyline, yytext()); }
-"do"        { System.out.println("Reconocio "+yytext()+" do"); return new Symbol(Simbolos.doo, yycolumn, yyline, yytext()); }
-"switch"    { System.out.println("Reconocio "+yytext()+" switch"); return new Symbol(Simbolos.swiitch, yycolumn, yyline, yytext()); }
+"if"        { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iff, yycolumn, yyline, yytext()); }
+"else"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.elsee, yycolumn, yyline, yytext()); }
+"for"       { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.foor, yycolumn, yyline, yytext()); }
+"while"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.whilee, yycolumn, yyline, yytext()); }
+"do"        { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.doo, yycolumn, yyline, yytext()); }
+"switch"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.swiitch, yycolumn, yyline, yytext()); }
 
-"private"   { System.out.println("Reconocio "+yytext()+" private"); return new Symbol(Simbolos.priivate, yycolumn, yyline, yytext()); }
-"public"    { System.out.println("Reconocio "+yytext()+" public"); return new Symbol(Simbolos.puublic, yycolumn, yyline, yytext()); }
-"protected" { System.out.println("Reconocio "+yytext()+" protected"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
-"final"     { System.out.println("Reconocio "+yytext()+" final"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
+"private"   { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.priivate, yycolumn, yyline, yytext()); }
+"public"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.puublic, yycolumn, yyline, yytext()); }
+"protected" { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
+"final"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
 
 "."         { System.out.println("Reconocio "+yytext()+" pto"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" ptoYcoma"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
+","         { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos.coma, yycolumn, yyline, yytext()); }
 "{"         { System.out.println("Reconocio "+yytext()+" llaveAb"); return new Symbol(Simbolos.llavea, yycolumn, yyline, yytext()); }
 "}"         { System.out.println("Reconocio "+yytext()+" llaveC"); return new Symbol(Simbolos.llavec, yycolumn, yyline, yytext()); }
 "("         { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos.para, yycolumn, yyline, yytext()); }

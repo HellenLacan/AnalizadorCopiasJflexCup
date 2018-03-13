@@ -46,14 +46,14 @@ terminal iimport, claass, voiid,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal,
-         asterisco, pto, ptoYcoma, llavea, llavec, para, parc,
+         asterisco, pto, ptoYcoma,coma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
          mas, menos, por, div,
          num, id,decimal;
 
 //------> declaracion de no terminales
 non terminal String INICIO,E,
-             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD, METODOS;
+             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
@@ -73,12 +73,18 @@ PRINCIPALES::=  PRINCIPALES IMPORT
                |METODOS
 ;
 
-METODOS::= VISIBILIDAD voiid id para parc llavea llavec
+METODOS::= VISIBILIDAD voiid id para PARAMETROS parc llavea llavec
+          |VISIBILIDAD voiid id para parc llavea llavec
+          |voiid id para PARAMETROS parc llavea llavec
           |voiid id para parc llavea llavec
 ;
 
 CLASS::= VISIBILIDAD claass id llavea llavec
         |claass id llavea llavec
+;
+
+PARAMETROS::= PARAMETROS coma TIPODATOS id
+             |TIPODATOS id
 ;
 
 IMPORT::= iimport IMPORTS1 ptoYcoma
@@ -94,6 +100,15 @@ VISIBILIDAD::= priivate
               |prootected
               |fiinal
 ;
+
+TIPODATOS::= iint
+            |bool
+            |string 
+            |chaar 
+            |doublee 
+            |object
+;
+
 
 E::= E:a mas E:b {::}
     |E:a menos E:b {::}
