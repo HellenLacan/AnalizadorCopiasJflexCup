@@ -32,10 +32,10 @@ numero = [0-9]+
 
 //-----> Simbolos
 
-"Import"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.import, yycolumn, yyline, yytext()); }
-"class"     { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.class, yycolumn, yyline, yytext()); }
+"Import"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
+"class"     { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
 
-"int"       { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.int, yycolumn, yyline, yytext()); }
+"int"       { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.iint, yycolumn, yyline, yytext()); }
 "boolean"   { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.bool, yycolumn, yyline, yytext()); }
 "String"    { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.string, yycolumn, yyline, yytext()); }
 "char"      { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.chaar, yycolumn, yyline, yytext()); }
@@ -54,7 +54,6 @@ numero = [0-9]+
 "protected" { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
 "final"     { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
 
-"*"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.asterisco, yycolumn, yyline, yytext()); }
 "."         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
 "{"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.corcha, yycolumn, yyline, yytext()); }

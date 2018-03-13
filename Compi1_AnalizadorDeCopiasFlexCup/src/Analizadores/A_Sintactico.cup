@@ -41,14 +41,13 @@ action code
 
 /*--------------- 2da Area: Declaraciones -----------------------*/
 //------> declaracion de terminales 
-terminal mas,menos,por,div,para,parc,num;
-terminal import, class,
-         int, bool, string, chaar, doublee, object,
-         iff, elsee, for, whilee, doo, swiitch,
+terminal iimport, claass,
+         iint, bool, string, chaar, doublee, object,
+         iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal,
          asterisco, pto, ptoYcoma, corcha, corchc, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
-         mas, menos, por, div;
+         mas, menos, por, div,num;
 
 //------> declaracion de no terminales
 non terminal String INICIO,E;
@@ -62,22 +61,10 @@ start with INICIO;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 INICIO::=E:a {: resultado=a; System.out.println(a); :};
 
-E::= E:a mas E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1+val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a menos E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1-val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a div E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1/val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a por E:b {: int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1*val2;
-                    RESULT = String.valueOf(r); :}
-    |para E:a parc {: RESULT = a.toString(); :}
-    |num:a {: RESULT = a.toString();  :}
+E::= E:a mas E:b {::}
+    |E:a menos E:b {::}
+    |E:a div E:b {::}
+    |E:a por E:b {::}
+    |para E:a parc {:  :}
+    |num:a {::}
     |error;
