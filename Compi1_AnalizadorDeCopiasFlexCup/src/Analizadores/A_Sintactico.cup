@@ -45,15 +45,16 @@ action code
 terminal iimport, claass, voiid,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
-         priivate, puublic, prootected, fiinal,
+         priivate, puublic, prootected, fiinal, staatic,
          asterisco, pto, ptoYcoma,coma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
          mas, menos, por, div,
          num, id,decimal;
 
 //------> declaracion de no terminales
-non terminal String INICIO,E,
-             PRINCIPALES, IMPORT, IMPORTS1,CLASS, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS;
+non terminal  INICIO,E,
+              PRINCIPALES, IMPORT, IMPORTS1,
+              CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, FUNCIONES, MET_FUNC;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
@@ -67,20 +68,28 @@ INICIO::=PRINCIPALES:a {: :};
 
 PRINCIPALES::=  PRINCIPALES IMPORT
                |PRINCIPALES CLASS
-               |PRINCIPALES METODOS
                |IMPORT
                |CLASS
-               |METODOS
 ;
 
-METODOS::= VISIBILIDAD voiid id para PARAMETROS parc llavea llavec
-          |VISIBILIDAD voiid id para parc llavea llavec
-          |voiid id para PARAMETROS parc llavea llavec
-          |voiid id para parc llavea llavec
+CLASS::= VISIBILIDAD claass id CUERPO_CLASE id 
+         |claass id CUERPO_CLASE id 
 ;
 
-CLASS::= VISIBILIDAD claass id llavea llavec
-        |claass id llavea llavec
+CUERPO_CLASE::= llavea DECLARACIONES_CLASE llavec
+               |llavea llavec
+;
+
+DECLARACIONES_CLASE::= DECLARACIONES_CLASE VISIBILIDAD MET_FUNC
+                      |DECLARACIONES_CLASE MET_FUNC
+                      |VISIBILIDAD MET_FUNC
+                      |MET_FUNC          
+;
+
+MET_FUNC::= voiid id para parc llavea llavec
+           |voiid id para PARAMETROS parc llavea llavec
+           |TIPODATOS id para parc llavea llavec
+           |TIPODATOS id para PARAMETROS parc llavea llavec
 ;
 
 PARAMETROS::= PARAMETROS coma TIPODATOS id
@@ -99,6 +108,7 @@ VISIBILIDAD::= priivate
               |puublic
               |prootected
               |fiinal
+              |staatic
 ;
 
 TIPODATOS::= iint
@@ -108,14 +118,3 @@ TIPODATOS::= iint
             |doublee 
             |object
 ;
-
-
-E::= E:a mas E:b {::}
-    |E:a menos E:b {::}
-    |E:a div E:b {::}
-    |E:a por E:b {::}
-    |para E:a parc {:  :}
-    |num:a {::}
-    |id
-    |decimal
-    |error;

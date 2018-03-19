@@ -58,6 +58,8 @@ decimal = [0-9]+ . [0-9]+
 "public"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.puublic, yycolumn, yyline, yytext()); }
 "protected" { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
 "final"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
+"static"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.staatic, yycolumn, yyline, yytext()); }
+
 
 "."         { System.out.println("Reconocio "+yytext()+" pto"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" ptoYcoma"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
