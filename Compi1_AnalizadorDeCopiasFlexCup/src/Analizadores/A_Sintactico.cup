@@ -48,19 +48,23 @@ terminal iimport, claass, voiid,
          priivate, puublic, prootected, fiinal, staatic,
          asterisco, pto, ptoYcoma,coma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
-         mas, menos, por, div,
-         num, id,decimal;
+         mas, menos, por, div, mod,
+         and, or,not,
+         num, id,decimal, cadena;
 
 //------> declaracion de no terminales
 non terminal  INICIO,E,
               PRINCIPALES, IMPORT, IMPORTS1,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
-              VARIABLES;
+              VARIABLES, ASIGNACION_VAR;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
 precedence left por, div;
+precedence left mayor, menor;
+precedence left mayorQ, menorQ;
+
 
 start with INICIO;
 
@@ -104,8 +108,13 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma
                    |TIPODATOS VARIABLES ptoYcoma
 ;
 
-VARIABLES::= VARIABLES coma id
-            |id
+VARIABLES::= VARIABLES coma id 
+            |VARIABLES coma id ASIGNACION_VAR
+            |id 
+            |id ASIGNACION_VAR
+;
+
+ASIGNACION_VAR::= asignacion E
 ;
 
 PARAMETROS::= PARAMETROS coma TIPODATOS id
@@ -133,4 +142,20 @@ TIPODATOS::= iint
             |chaar 
             |doublee 
             |object
+;
+
+E::= E mayor E
+    |E menor E
+    |E menorQ E
+    |E mayorQ E
+    |E mas E
+    |E menos E
+    |E por E
+    |E div E
+    |para E parc 
+    |id
+    |num
+    |decimal
+    |cadena
+
 ;

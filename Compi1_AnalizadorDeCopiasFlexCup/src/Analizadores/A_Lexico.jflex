@@ -25,8 +25,9 @@ import java.util.LinkedList;
 //------> Expresiones Regulares
 numero = [0-9]+
 id = [A-Za-zñÑ] [_0-9A-Za-zñÑ]*
-decimal = [0-9]+ . [0-9]+
-
+decimal = [0-9]+ \. [0-9]+ | \. [0-9]+ 
+cadena =  "\"" [^\"\n]* "\""     
+ 
 //------> Estas ER son para omitir comentarios, en este caso no se omitiran debido a que se necesita saber cuantos comentarios se repiten en un proyecto para la deteccion de copias.
 ComentarioMultiLinea = "/*" [^*] ~"*/" | "/*" "*"+ "/" 
 ComentarioLinea =  "/" "/" [^}\n]*    
@@ -81,15 +82,23 @@ ComentarioLinea =  "/" "/" [^}\n]*
 "!="         { System.out.println("Reconocio "+yytext()+" distinto"); return new Symbol(Simbolos.distinto, yycolumn, yyline, yytext()); }
 "=="         { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos.iguala, yycolumn, yyline, yytext()); }
 
+"&&"         { System.out.println("Reconocio "+yytext()+" and"); return new Symbol(Simbolos.and, yycolumn, yyline, yytext()); }
+"||"         { System.out.println("Reconocio "+yytext()+" or"); return new Symbol(Simbolos.or, yycolumn, yyline, yytext()); }
+"!"          { System.out.println("Reconocio "+yytext()+" not"); return new Symbol(Simbolos.not, yycolumn, yyline, yytext()); }
+
+
 "+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
 "-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
 "*"         { System.out.println("Reconocio "+yytext()+" por"); return new Symbol(Simbolos.por, yycolumn, yyline, yytext()); }
 "/"         { System.out.println("Reconocio "+yytext()+" div"); return new Symbol(Simbolos.div, yycolumn, yyline, yytext()); }
+"%"         { System.out.println("Reconocio "+yytext()+" modo"); return new Symbol(Simbolos.mod, yycolumn, yyline, yytext()); }
+
 
 //-------> Simbolos ER
  {numero}    { System.out.println("Reconocio "+yytext()+" num"); return new Symbol(Simbolos.num, yycolumn, yyline, yytext()); }
  {id}        { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
  {decimal}   { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
+ {cadena}   { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
 
 
 //------> Espacios
