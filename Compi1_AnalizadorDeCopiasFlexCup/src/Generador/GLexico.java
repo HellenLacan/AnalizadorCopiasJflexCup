@@ -2,6 +2,8 @@ package Generador;
 
 import java.io.File;
 
+
+
 public class GLexico 
 {
     public static void main(String[] args) 

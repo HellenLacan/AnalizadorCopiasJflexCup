@@ -27,6 +27,10 @@ numero = [0-9]+
 id = [A-Za-zñÑ] [_0-9A-Za-zñÑ]*
 decimal = [0-9]+ . [0-9]+
 
+//------> Estas ER son para omitir comentarios, en este caso no se omitiran debido a que se necesita saber cuantos comentarios se repiten en un proyecto para la deteccion de copias.
+ComentarioMultiLinea = "/*" [^*] ~"*/" | "/*" "*"+ "/" 
+ComentarioLinea =  "/" "/" [^}\n]*    
+
 
 //------> Estados
 
@@ -90,6 +94,8 @@ decimal = [0-9]+ . [0-9]+
 
 //------> Espacios
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
+//{ComentarioMultiLinea}     { /* ignorar */ }
+//{ComentarioLinea}           { /* ignorar */ }
 
 //------> Errores Lexicos
 .                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn);}

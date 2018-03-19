@@ -54,7 +54,9 @@ terminal iimport, claass, voiid,
 //------> declaracion de no terminales
 non terminal  INICIO,E,
               PRINCIPALES, IMPORT, IMPORTS1,
-              CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, FUNCIONES, MET_FUNC;
+              CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
+              FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
+              VARIABLES;
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
@@ -87,9 +89,23 @@ DECLARACIONES_CLASE::= DECLARACIONES_CLASE VISIBILIDAD MET_FUNC
 ;
 
 MET_FUNC::= voiid id para parc llavea llavec
+           |voiid id para parc llavea CUERPO_FUNCIONES llavec
            |voiid id para PARAMETROS parc llavea llavec
+           |voiid id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
            |TIPODATOS id para parc llavea llavec
+           |TIPODATOS id para parc llavea CUERPO_FUNCIONES llavec
            |TIPODATOS id para PARAMETROS parc llavea llavec
+           |TIPODATOS id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
+;
+
+CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma
+                   |CUERPO_FUNCIONES TIPODATOS VARIABLES ptoYcoma
+                   |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma 
+                   |TIPODATOS VARIABLES ptoYcoma
+;
+
+VARIABLES::= VARIABLES coma id
+            |id
 ;
 
 PARAMETROS::= PARAMETROS coma TIPODATOS id
