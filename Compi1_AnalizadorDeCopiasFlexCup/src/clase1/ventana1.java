@@ -61,7 +61,7 @@ public class ventana1 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(154, 154, 154)
                 .addComponent(jButton1)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(502, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -75,7 +75,7 @@ public class ventana1 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -87,10 +87,10 @@ public class ventana1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
         
           try {   
-          //jTextArea1.setText("Import java.util.*");
+          
 Sintactico sintactico =new Sintactico(new Analizador_Lexico(new BufferedReader( new StringReader(jTextArea1.getText()))));
 sintactico.parse();
 //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
@@ -100,6 +100,7 @@ sintactico.parse();
             Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
     }
         
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

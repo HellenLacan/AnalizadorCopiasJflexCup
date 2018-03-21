@@ -5,6 +5,9 @@
 package Analizadores;
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import clase1.Token;
+import java.util.ArrayList;
+
 
 /*************************************  2da Area: Opciones y Declaraciones **************************************/
 
@@ -363,6 +366,17 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
 
   /* user code: */
     //----> Codigo de usuario en sintaxis java
+    ArrayList<Token> arrayTokens = new ArrayList<Token>();
+    Token miToken;
+
+    public void mostrarTokens(){
+        for (Token item : arrayTokens) {
+                System.out.print("Fila"+"               " + "Token"+"           "   + "Fila"+"               " + "Columna");
+                System.out.print(item.getLexema()+"     " + item.getToken()+"     " + item.getFila() + "     " + item.getColumna());
+                System.out.println("");
+        }
+}
+
 
 
   /**
@@ -885,7 +899,15 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 86: break;
           case 39: 
-            { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Reservada");
+              miToken = new Token();
+              miToken.setFila(yyline);
+              miToken.setColumna(yycolumn);
+              miToken.setLexema(yytext());
+              miToken.setToken("claass");
+              arrayTokens.add(miToken);
+       
+              return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext());
             }
           case 87: break;
           case 40: 

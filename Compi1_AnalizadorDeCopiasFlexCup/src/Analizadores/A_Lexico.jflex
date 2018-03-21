@@ -3,11 +3,25 @@
 package Analizadores;
 import java_cup.runtime.*;
 import java.util.LinkedList;
+import clase1.Token;
+import java.util.ArrayList;
+
 
 /*************************************  2da Area: Opciones y Declaraciones **************************************/
 %%
 %{
     //----> Codigo de usuario en sintaxis java
+    ArrayList<Token> arrayTokens = new ArrayList<Token>();
+    Token miToken;
+
+    public void mostrarTokens(){
+        for (Token item : arrayTokens) {
+                System.out.print("Fila"+"               " + "Token"+"           "   + "Fila"+"               " + "Columna");
+                System.out.print(item.getLexema()+"     " + item.getToken()+"     " + item.getFila() + "     " + item.getColumna());
+                System.out.println("");
+        }
+}
+
 %}
 
 //-------> Directivas
@@ -40,10 +54,17 @@ ComentarioLinea =  "/" "/" [^}\n]*
 
 //-----> Simbolos
 
-"Import"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
+"Import"    { System.out.println("Reconocio "+yytext()+" Reservada");
+              miToken = new Token();
+              miToken.setFila(yyline);
+              miToken.setColumna(yycolumn);
+              miToken.setLexema(yytext());
+              miToken.setToken("claass");
+              arrayTokens.add(miToken);
+       
+              return new Symbol(Simbolos.iimport, yycolumn, yyline, yytext()); }
 "class"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
-"void"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
-
+"void"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
 
 "int"       { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.iint, yycolumn, yyline, yytext()); }
 "boolean"   { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.bool, yycolumn, yyline, yytext()); }
@@ -64,7 +85,6 @@ ComentarioLinea =  "/" "/" [^}\n]*
 "protected" { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.prootected, yycolumn, yyline, yytext()); }
 "final"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.fiinal, yycolumn, yyline, yytext()); }
 "static"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.staatic, yycolumn, yyline, yytext()); }
-
 
 "."         { System.out.println("Reconocio "+yytext()+" pto"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" ptoYcoma"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
@@ -98,13 +118,13 @@ ComentarioLinea =  "/" "/" [^}\n]*
  {numero}    { System.out.println("Reconocio "+yytext()+" num"); return new Symbol(Simbolos.num, yycolumn, yyline, yytext()); }
  {id}        { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
  {decimal}   { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
- {cadena}   { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
+ {cadena}    { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
 
 
 //------> Espacios
-[ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
-//{ComentarioMultiLinea}     { /* ignorar */ }
-//{ComentarioLinea}           { /* ignorar */ }
+[ \t\r\n\f]                  {/* Espacios en blanco, se ignoran */}
+{ComentarioMultiLinea}       { /* ignorar */ }
+{ComentarioLinea}            { /* ignorar */ }
 
 //------> Errores Lexicos
 .                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn);}

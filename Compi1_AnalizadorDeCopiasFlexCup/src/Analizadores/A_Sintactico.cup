@@ -57,14 +57,16 @@ non terminal  INICIO,E,
               PRINCIPALES, IMPORT, IMPORTS1,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
-              VARIABLES, ASIGNACION_VAR;
+              VARIABLES, ASIGNACION_VAR,
+              IF, IF_ELSE,
+              CONDICION, MULT, VALOR;
+
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
 precedence left por, div;
 precedence left mayor, menor;
-precedence left mayorQ, menorQ;
-
+precedence left mayorQ, menorQ,CONDICION;
 
 start with INICIO;
 
@@ -78,6 +80,14 @@ PRINCIPALES::=  PRINCIPALES IMPORT
                |CLASS
 ;
 
+IMPORT::= iimport IMPORTS1 ptoYcoma
+;
+
+IMPORTS1::= IMPORTS1 pto id
+           |IMPORTS1 pto por
+           |id
+;
+
 CLASS::= VISIBILIDAD claass id CUERPO_CLASE id 
          |claass id CUERPO_CLASE id 
 ;
@@ -88,24 +98,35 @@ CUERPO_CLASE::= llavea DECLARACIONES_CLASE llavec
 
 DECLARACIONES_CLASE::= DECLARACIONES_CLASE VISIBILIDAD MET_FUNC
                       |DECLARACIONES_CLASE MET_FUNC
+                      |DECLARACIONES_CLASE VISIBILIDAD TIPODATOS VARIABLES ptoYcoma
+                      |DECLARACIONES_CLASE TIPODATOS VARIABLES ptoYcoma
                       |VISIBILIDAD MET_FUNC
-                      |MET_FUNC          
+                      |MET_FUNC     
+                      |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
+                      |TIPODATOS VARIABLES ptoYcoma  
 ;
 
-MET_FUNC::= voiid id para parc llavea llavec
-           |voiid id para parc llavea CUERPO_FUNCIONES llavec
-           |voiid id para PARAMETROS parc llavea llavec
-           |voiid id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
-           |TIPODATOS id para parc llavea llavec
-           |TIPODATOS id para parc llavea CUERPO_FUNCIONES llavec
-           |TIPODATOS id para PARAMETROS parc llavea llavec
-           |TIPODATOS id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
+MET_FUNC::= voiid id para parc llavea llavec                                         //Reconoce metodo void sin cuerpo sin parametros
+           |voiid id para parc llavea CUERPO_FUNCIONES llavec                        //Reconoce metodo void con cuerpo sin parametros
+           |voiid id para PARAMETROS parc llavea llavec                              //Reconoce metodo void sin cuerpo con parametros
+           |voiid id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec             //Reconoce metodo void con cuerpo con parametros
+           |TIPODATOS id para parc llavea llavec                                     //Reconoce Funcion sin cuerpo sin parametros
+           |TIPODATOS id para parc llavea CUERPO_FUNCIONES llavec                    //Reconoce Funcion con cuerpo sin parametros
+           |TIPODATOS id para PARAMETROS parc llavea llavec                          //Reconoce Funcion sin cuerpo con parametros
+           |TIPODATOS id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec         //Reconoce Funcion con cuerpo con parametros
 ;
 
-CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma
-                   |CUERPO_FUNCIONES TIPODATOS VARIABLES ptoYcoma
-                   |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma 
-                   |TIPODATOS VARIABLES ptoYcoma
+CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma        //Reconoce varias variables con visibilidad
+                   |CUERPO_FUNCIONES TIPODATOS VARIABLES ptoYcoma                    //Reconoce varias variables sin visibilidad
+                   |CUERPO_FUNCIONES VARIABLES ptoYcoma                              //Reconoce varias asignacion de variables\
+                   |CUERPO_FUNCIONES iff para E  parc llavea llavec
+                   |CUERPO_FUNCIONES iff para E parc llavea CUERPO_FUNCIONES llavec
+                   |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
+                   |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
+                   |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
+                   |iff para E parc llavea llavec
+                   |iff para E parc llavea CUERPO_FUNCIONES llavec
+
 ;
 
 VARIABLES::= VARIABLES coma id 
@@ -119,14 +140,6 @@ ASIGNACION_VAR::= asignacion E
 
 PARAMETROS::= PARAMETROS coma TIPODATOS id
              |TIPODATOS id
-;
-
-IMPORT::= iimport IMPORTS1 ptoYcoma
-;
-
-IMPORTS1::= IMPORTS1 pto id
-           |IMPORTS1 pto por
-           |id
 ;
 
 VISIBILIDAD::= priivate
@@ -144,18 +157,25 @@ TIPODATOS::= iint
             |object
 ;
 
-E::= E mayor E
-    |E menor E
-    |E menorQ E
-    |E mayorQ E
-    |E mas E
-    |E menos E
-    |E por E
-    |E div E
-    |para E parc 
-    |id
-    |num
-    |decimal
-    |cadena
-
+E ::= E:a mas MULT
+     |E:a menos MULT
+     |E:a mayor MULT
+     |E:a mayorQ MULT
+     |E:a menor MULT
+     |E:a menorQ MULT
+     |E:a and MULT
+     |E:a or MULT
+     |E:a distinto MULT
+     |MULT
+;
+ 
+MULT ::= MULT:a por VALOR:b
+        |MULT:a div VALOR:b 
+        |VALOR:e
+;
+VALOR ::=  num:e 
+         | id:id 
+         | cadena
+         | decimal
+         |para E:e parc
 ;
