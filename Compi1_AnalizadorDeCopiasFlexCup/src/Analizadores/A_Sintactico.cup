@@ -137,7 +137,9 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
 ;
 
 CONSTRUCTOR::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
+              |id para PARAMETROS parc llavec
               |id para parc llavea CUERPO_FUNCIONES llavec
+              |id para parc llavea llavec
 ;
 
 VARIABLES::= VARIABLES coma id 
