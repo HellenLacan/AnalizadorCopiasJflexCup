@@ -59,7 +59,7 @@ non terminal  INICIO,E,
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, IF_ELSE,
-              CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE;
+              CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE, LLAMADA_FUNCIONES, PARAMETROS_FUNC;
 
 
 //----> precedencia de menor a mayor 
@@ -107,7 +107,7 @@ DECLARACIONES_CLASE::= DECLARACIONES_CLASE VISIBILIDAD MET_FUNC
                       |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                       |TIPODATOS VARIABLES ptoYcoma  
                       |VISIBILIDAD CONSTRUCTOR
-                      |CONSTRUCTOR
+                      |CONSTRUCTOR                     
 ;
 
 MET_FUNC::= voiid id para parc llavea llavec                                         //Reconoce metodo void sin cuerpo sin parametros
@@ -127,6 +127,7 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                    |CUERPO_FUNCIONES iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
                    |CUERPO_FUNCIONES WHILE
                    |CUERPO_FUNCIONES DO_WHILE
+                   |CUERPO_FUNCIONES LLAMADA_FUNCIONES
                    |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
@@ -134,10 +135,19 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                    |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
                    |WHILE
                    |DO_WHILE
+                   |LLAMADA_FUNCIONES
+;
+
+LLAMADA_FUNCIONES::= id para parc ptoYcoma
+                    |id para PARAMETROS_FUNC parc ptoYcoma
+;
+
+PARAMETROS_FUNC::= PARAMETROS_FUNC coma id
+                   |id
 ;
 
 CONSTRUCTOR::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
-              |id para PARAMETROS parc llavec
+              |id para PARAMETROS parc llavea llavec
               |id para parc llavea CUERPO_FUNCIONES llavec
               |id para parc llavea llavec
 ;
@@ -178,7 +188,6 @@ TIPODATOS::= iint
             |doublee 
             |object
 ;
-
 
 EXPR::= EXPR mas EXPR
        |EXPR menos EXPR
