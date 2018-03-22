@@ -59,7 +59,7 @@ non terminal  INICIO,E,
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, IF_ELSE,
-              CONDICION, MULT, VALOR, WHILE;
+              CONDICION, MULT, VALOR, WHILE, DO_WHILE;
 
 
 //----> precedencia de menor a mayor 
@@ -122,12 +122,14 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                    |CUERPO_FUNCIONES iff para E  parc llavea llavec
                    |CUERPO_FUNCIONES iff para E parc llavea CUERPO_FUNCIONES llavec
                    |CUERPO_FUNCIONES WHILE
+                   |CUERPO_FUNCIONES DO_WHILE
                    |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
                    |iff para E parc llavea llavec
                    |iff para E parc llavea CUERPO_FUNCIONES llavec
                    |WHILE
+                   |DO_WHILE
 ;
 
 VARIABLES::= VARIABLES coma id 
@@ -139,6 +141,10 @@ VARIABLES::= VARIABLES coma id
 WHILE::= whilee para E parc llavea CUERPO_FUNCIONES llavec
          |whilee para E parc llavea llavec
 
+;
+
+DO_WHILE::= doo llavea CUERPO_FUNCIONES llavec whilee para E parc ptoYcoma
+           |doo llavea llavec whilee para E parc ptoYcoma
 ;
 
 ASIGNACION_VAR::= asignacion E
@@ -171,6 +177,7 @@ E ::= E:a mas MULT
      |E:a menorQ MULT
      |E:a and MULT
      |E:a or MULT
+     |E:a mod MULT
      |E:a distinto MULT
      |MULT
 ;
