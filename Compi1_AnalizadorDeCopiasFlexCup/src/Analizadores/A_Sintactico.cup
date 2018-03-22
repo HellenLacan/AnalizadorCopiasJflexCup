@@ -55,14 +55,14 @@ terminal iimport, claass, voiid,breeak,retuurn,
 
 //------> declaracion de no terminales
 non terminal  INICIO,E,
-              PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR, COND_SW,
+              PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR, COND_SW,CUERPO_FUNCIONESR,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, ELSE,
               CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE, LLAMADA_FUNCIONES, PARAMETROS_FUNC,
               COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, INCREMENTO, SIGNOS, SWITCH, 
-              CASE, CASE1, DEFAULT, VALORES1, VALORES, INCREMENTOS_VAR, BREAK_RETURN, ELSE_IF, ELSE_IF1;
+              CASE, CASE1, DEFAULT, VALORES1, VALORES, INCREMENTOS_VAR, BREAK_RETURN, ELSE_IF, ELSE_IF1, CUERPO_FUNCIONESR1;
 
 
 //----> precedencia de menor a mayor 
@@ -138,6 +138,23 @@ CUERPO_FUNCIONES1::= VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                   
                     |SWITCH
 ;
 
+CUERPO_FUNCIONESR::= CUERPO_FUNCIONESR CUERPO_FUNCIONESR1
+                   |CUERPO_FUNCIONESR1
+;
+
+
+CUERPO_FUNCIONESR1::= VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
+                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
+                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
+                    |IF
+                    |WHILE
+                    |DO_WHILE
+                    |LLAMADA_FUNCIONES
+                    |FOR
+                    |SWITCH
+                    |BREAK_RETURN
+;
+
 SWITCH::= swiitch para COND_SW parc llavea CASE DEFAULT llavec
          |swiitch para COND_SW parc llavea CASE llavec
 ;
@@ -150,14 +167,15 @@ CASE::= CASE CASE1
        |CASE1
 ;
 
-CASE1::= casee VALORES dosPtos CUERPO_FUNCIONES
-        |casee VALORES dosPtos CUERPO_FUNCIONES BREAK_RETURN
+CASE1::= casee VALORES dosPtos CUERPO_FUNCIONESR
+        |casee VALORES dosPtos CUERPO_FUNCIONESR BREAK_RETURN
         |casee VALORES dosPtos
         |casee VALORES dosPtos BREAK_RETURN
 ;
 
 BREAK_RETURN::= breeak ptoYcoma
                |retuurn ptoYcoma
+               |retuurn id asignacion EXPR ptoYcoma
 ;
 
 VALORES::= comilla VALORES1 comilla
@@ -169,8 +187,8 @@ VALORES1::= id
            |decimal
 ;
 
-DEFAULT::= defauult dosPtos CUERPO_FUNCIONES
-          |defauult dosPtos CUERPO_FUNCIONES BREAK_RETURN
+DEFAULT::= defauult dosPtos CUERPO_FUNCIONESR
+          |defauult dosPtos CUERPO_FUNCIONESR BREAK_RETURN
           |defauult dosPtos
           |defauult dosPtos BREAK_RETURN    
 ;
@@ -197,7 +215,7 @@ ELSE::= elsee llavea CUERPO_FUNCIONES llavec
        |elsee llavea llavec
 ;
 
-FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONES llavec
+FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONESR llavec
       |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea llavec
 ;
 
@@ -237,8 +255,8 @@ VARIABLES::= VARIABLES coma id
             |id ASIGNACION_VAR
 ;
 
-WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONES llavec
-         |whilee para CONDICION parc llavea llavec
+WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONESR llavec
+        |whilee para CONDICION parc llavea llavec
 
 ;
 
