@@ -7,6 +7,7 @@ package clase1;
 
 import Analizadores.Analizador_Lexico;
 import Analizadores.Sintactico;
+import static clase1.Clase1.createAndShowGUI;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.logging.Level;
@@ -87,20 +88,20 @@ public class ventana1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       // TODO add your handling code here:
-        
-          try {   
-          
-Sintactico sintactico =new Sintactico(new Analizador_Lexico(new BufferedReader( new StringReader(jTextArea1.getText()))));
-sintactico.parse();
+        // TODO add your handling code here:
+
+        try {
+
+            Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
+            sintactico.parse();
 //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
-    //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
-               this.jLabel1.setText("Resultado "+sintactico.resultado);
-    } catch (Exception ex) {
+            //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
+            this.jLabel1.setText("Resultado " + sintactico.resultado);
+        } catch (Exception ex) {
             Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
-    
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -134,6 +135,8 @@ sintactico.parse();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ventana1().setVisible(true);
+                //createAndShowGUI();
+
             }
         });
     }

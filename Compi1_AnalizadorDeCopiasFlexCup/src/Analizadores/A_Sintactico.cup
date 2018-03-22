@@ -46,7 +46,7 @@ terminal iimport, claass, voiid,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal, staatic,
-         asterisco, pto, ptoYcoma,coma, llavea, llavec, para, parc,
+         pto, ptoYcoma,coma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
          mas, menos, por, div, mod,
          and, or,not,
@@ -54,19 +54,19 @@ terminal iimport, claass, voiid,
 
 //------> declaracion de no terminales
 non terminal  INICIO,E,
-              PRINCIPALES, IMPORT, IMPORTS1,
+              PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, IF_ELSE,
-              CONDICION, MULT, VALOR, WHILE, DO_WHILE;
+              CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE;
 
 
 //----> precedencia de menor a mayor 
 precedence left mas, menos;
-precedence left por, div;
+precedence left por, div, and, or, not;
 precedence left mayor, menor;
-precedence left mayorQ, menorQ,CONDICION;
+precedence left mayorQ, menorQ;
 
 start with INICIO;
 
@@ -100,10 +100,14 @@ DECLARACIONES_CLASE::= DECLARACIONES_CLASE VISIBILIDAD MET_FUNC
                       |DECLARACIONES_CLASE MET_FUNC
                       |DECLARACIONES_CLASE VISIBILIDAD TIPODATOS VARIABLES ptoYcoma
                       |DECLARACIONES_CLASE TIPODATOS VARIABLES ptoYcoma
+                      |DECLARACIONES_CLASE VISIBILIDAD CONSTRUCTOR
+                      |DECLARACIONES_CLASE CONSTRUCTOR
                       |VISIBILIDAD MET_FUNC
                       |MET_FUNC     
                       |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                       |TIPODATOS VARIABLES ptoYcoma  
+                      |VISIBILIDAD CONSTRUCTOR
+                      |CONSTRUCTOR
 ;
 
 MET_FUNC::= voiid id para parc llavea llavec                                         //Reconoce metodo void sin cuerpo sin parametros
@@ -119,17 +123,21 @@ MET_FUNC::= voiid id para parc llavea llavec                                    
 CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma        //Reconoce varias variables con visibilidad
                    |CUERPO_FUNCIONES TIPODATOS VARIABLES ptoYcoma                    //Reconoce varias variables sin visibilidad
                    |CUERPO_FUNCIONES VARIABLES ptoYcoma                              //Reconoce varias asignacion de variables\
-                   |CUERPO_FUNCIONES iff para E  parc llavea llavec
-                   |CUERPO_FUNCIONES iff para E parc llavea CUERPO_FUNCIONES llavec
+                   |CUERPO_FUNCIONES iff para CONDICION  parc llavea llavec
+                   |CUERPO_FUNCIONES iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
                    |CUERPO_FUNCIONES WHILE
                    |CUERPO_FUNCIONES DO_WHILE
                    |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
-                   |iff para E parc llavea llavec
-                   |iff para E parc llavea CUERPO_FUNCIONES llavec
+                   |iff para CONDICION parc llavea llavec
+                   |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
                    |WHILE
                    |DO_WHILE
+;
+
+CONSTRUCTOR::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
+              |id para parc llavea CUERPO_FUNCIONES llavec
 ;
 
 VARIABLES::= VARIABLES coma id 
@@ -138,16 +146,16 @@ VARIABLES::= VARIABLES coma id
             |id ASIGNACION_VAR
 ;
 
-WHILE::= whilee para E parc llavea CUERPO_FUNCIONES llavec
-         |whilee para E parc llavea llavec
+WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONES llavec
+         |whilee para CONDICION parc llavea llavec
 
 ;
 
-DO_WHILE::= doo llavea CUERPO_FUNCIONES llavec whilee para E parc ptoYcoma
-           |doo llavea llavec whilee para E parc ptoYcoma
+DO_WHILE::= doo llavea CUERPO_FUNCIONES llavec whilee para CONDICION parc ptoYcoma
+           |doo llavea llavec whilee para CONDICION parc ptoYcoma
 ;
 
-ASIGNACION_VAR::= asignacion E
+ASIGNACION_VAR::= asignacion EXPR
 ;
 
 PARAMETROS::= PARAMETROS coma TIPODATOS id
@@ -169,26 +177,29 @@ TIPODATOS::= iint
             |object
 ;
 
-E ::= E:a mas MULT
-     |E:a menos MULT
-     |E:a mayor MULT
-     |E:a mayorQ MULT
-     |E:a menor MULT
-     |E:a menorQ MULT
-     |E:a and MULT
-     |E:a or MULT
-     |E:a mod MULT
-     |E:a distinto MULT
-     |MULT
+
+EXPR::= EXPR mas EXPR
+       |EXPR menos EXPR
+       |EXPR por EXPR
+       |EXPR div EXPR
+       |menos EXPR
+       |num:e 
+       |id:id 
+       |cadena
+       |decimal
+       |para EXPR:e parc
 ;
- 
-MULT ::= MULT:a por VALOR:b
-        |MULT:a div VALOR:b 
-        |VALOR:e
-;
-VALOR ::=  num:e 
-         | id:id 
-         | cadena
-         | decimal
-         |para E:e parc
+
+CONDICION::= EXPR mayor EXPR
+            |EXPR menor EXPR
+            |EXPR mayorQ EXPR
+            |EXPR menorQ EXPR
+            |EXPR iguala EXPR
+            |EXPR distinto EXPR
+            |EXPR asignacion EXPR
+            |EXPR mod EXPR
+            |not CONDICION
+            |CONDICION and CONDICION
+            |CONDICION or CONDICION
+            |para CONDICION parc
 ;
