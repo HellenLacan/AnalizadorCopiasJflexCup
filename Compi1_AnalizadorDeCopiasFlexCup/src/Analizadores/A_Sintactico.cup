@@ -59,10 +59,10 @@ non terminal  INICIO,E,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
-              IF, IF_ELSE,
+              IF, ELSE,
               CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE, LLAMADA_FUNCIONES, PARAMETROS_FUNC,
-              COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, PASOFOR, SIGNOS, SWITCH, 
-              CASE, CASE1, DEFAULT, VALORES1, VALORES;
+              COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, INCREMENTO, SIGNOS, SWITCH, 
+              CASE, CASE1, DEFAULT, VALORES1, VALORES, INCREMENTOS_VAR, BREAK_RETURN, ELSE_IF, ELSE_IF1;
 
 
 //----> precedencia de menor a mayor 
@@ -151,9 +151,13 @@ CASE::= CASE CASE1
 ;
 
 CASE1::= casee VALORES dosPtos CUERPO_FUNCIONES
-        |casee VALORES dosPtos CUERPO_FUNCIONES breeak ptoYcoma
+        |casee VALORES dosPtos CUERPO_FUNCIONES BREAK_RETURN
         |casee VALORES dosPtos
-        |casee VALORES dosPtos breeak ptoYcoma
+        |casee VALORES dosPtos BREAK_RETURN
+;
+
+BREAK_RETURN::= breeak ptoYcoma
+               |retuurn ptoYcoma
 ;
 
 VALORES::= comilla VALORES1 comilla
@@ -166,27 +170,45 @@ VALORES1::= id
 ;
 
 DEFAULT::= defauult dosPtos CUERPO_FUNCIONES
-          |defauult dosPtos CUERPO_FUNCIONES breeak ptoYcoma
+          |defauult dosPtos CUERPO_FUNCIONES BREAK_RETURN
           |defauult dosPtos
-          |defauult dosPtos breeak ptoYcoma    
+          |defauult dosPtos BREAK_RETURN    
 ;
 
 IF::=  iff para CONDICION parc llavea llavec
+      |iff para CONDICION parc llavea llavec ELSE_IF
+      |iff para CONDICION parc llavea llavec ELSE_IF ELSE
+      |iff para CONDICION parc llavea llavec ELSE
       |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
+      |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF
+      |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF ELSE
+      |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE
 ;
 
-FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma PASOFOR parc llavea CUERPO_FUNCIONES llavec
-      |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma PASOFOR parc llavea llavec
+ELSE_IF1::= elsee iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
+          |elsee iff para CONDICION parc llavea llavec 
+;
+
+ELSE_IF::= ELSE_IF ELSE_IF1
+          |ELSE_IF1
+;
+
+ELSE::= elsee llavea CUERPO_FUNCIONES llavec
+       |elsee llavea llavec
+;
+
+FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONES llavec
+      |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea llavec
+;
+
+INCREMENTO::= id asignacion PASO
+          |id asignacion EXPR
+          |id PASO
+          |id SIGNOS asignacion EXPR
 ;
 
 PASO ::=  incremento
          |decremento
-;
-
-PASOFOR::= id asignacion PASO
-          |id asignacion EXPR
-          |id PASO
-          |id SIGNOS asignacion EXPR
 ;
 
 SIGNOS::= mas
