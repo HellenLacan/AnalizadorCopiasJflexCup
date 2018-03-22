@@ -79,6 +79,11 @@ ComentarioLinea =  "/" "/" [^}\n]*
 "while"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.whilee, yycolumn, yyline, yytext()); }
 "do"        { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.doo, yycolumn, yyline, yytext()); }
 "switch"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.swiitch, yycolumn, yyline, yytext()); }
+"case"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.casee, yycolumn, yyline, yytext()); }
+"default"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.defauult, yycolumn, yyline, yytext()); }
+"break"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.breeak, yycolumn, yyline, yytext()); }
+"return"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.retuurn, yycolumn, yyline, yytext()); }
+
 
 "private"   { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.priivate, yycolumn, yyline, yytext()); }
 "public"    { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.puublic, yycolumn, yyline, yytext()); }
@@ -88,11 +93,14 @@ ComentarioLinea =  "/" "/" [^}\n]*
 
 "."         { System.out.println("Reconocio "+yytext()+" pto"); return new Symbol(Simbolos.pto, yycolumn, yyline, yytext()); }
 ";"         { System.out.println("Reconocio "+yytext()+" ptoYcoma"); return new Symbol(Simbolos.ptoYcoma, yycolumn, yyline, yytext()); }
+":"         { System.out.println("Reconocio "+yytext()+" dosPtos"); return new Symbol(Simbolos.dosPtos, yycolumn, yyline, yytext()); }
 ","         { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos.coma, yycolumn, yyline, yytext()); }
 "{"         { System.out.println("Reconocio "+yytext()+" llaveAb"); return new Symbol(Simbolos.llavea, yycolumn, yyline, yytext()); }
 "}"         { System.out.println("Reconocio "+yytext()+" llaveC"); return new Symbol(Simbolos.llavec, yycolumn, yyline, yytext()); }
 "("         { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos.para, yycolumn, yyline, yytext()); }
 ")"         { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
+"\""         { System.out.println("Reconocio "+yytext()+" comilla"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
+
 
 ">"         { System.out.println("Reconocio "+yytext()+" mayor"); return new Symbol(Simbolos.mayor, yycolumn, yyline, yytext()); }
 "<"         { System.out.println("Reconocio "+yytext()+" menor"); return new Symbol(Simbolos.menor, yycolumn, yyline, yytext()); }

@@ -8,63 +8,71 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int pto = 22;
-  public static final int bool = 6;
-  public static final int doo = 15;
-  public static final int distinto = 34;
-  public static final int puublic = 18;
-  public static final int mod = 40;
-  public static final int ptoYcoma = 23;
-  public static final int coma = 24;
-  public static final int doublee = 9;
-  public static final int prootected = 19;
-  public static final int swiitch = 16;
-  public static final int string = 7;
+  public static final int pto = 24;
+  public static final int bool = 8;
+  public static final int dosPtos = 49;
+  public static final int doo = 17;
+  public static final int comilla = 55;
+  public static final int distinto = 36;
+  public static final int puublic = 20;
+  public static final int mod = 42;
+  public static final int ptoYcoma = 25;
+  public static final int defauult = 50;
+  public static final int coma = 26;
+  public static final int doublee = 11;
+  public static final int prootected = 21;
+  public static final int swiitch = 18;
+  public static final int string = 9;
   public static final int iimport = 2;
-  public static final int llavec = 26;
-  public static final int llavea = 25;
-  public static final int elsee = 12;
+  public static final int llavec = 28;
+  public static final int llavea = 27;
+  public static final int elsee = 14;
+  public static final int breeak = 5;
+  public static final int casee = 48;
   public static final int claass = 3;
-  public static final int menos = 37;
-  public static final int mayorQ = 32;
-  public static final int menor = 30;
-  public static final int iff = 11;
-  public static final int fiinal = 20;
+  public static final int menos = 39;
+  public static final int mayorQ = 34;
+  public static final int menor = 32;
+  public static final int iff = 13;
+  public static final int fiinal = 22;
   public static final int EOF = 0;
-  public static final int parc = 28;
-  public static final int mas = 36;
-  public static final int chaar = 8;
-  public static final int whilee = 14;
-  public static final int para = 27;
-  public static final int iguala = 35;
+  public static final int parc = 30;
+  public static final int mas = 38;
+  public static final int chaar = 10;
+  public static final int whilee = 16;
+  public static final int para = 29;
+  public static final int iguala = 37;
   public static final int error = 1;
-  public static final int mayor = 29;
-  public static final int or = 44;
-  public static final int foor = 13;
-  public static final int por = 38;
-  public static final int ComentarioMultiLinea = 50;
-  public static final int id = 47;
-  public static final int incremento = 41;
-  public static final int staatic = 21;
-  public static final int object = 10;
-  public static final int priivate = 17;
+  public static final int mayor = 31;
+  public static final int or = 46;
+  public static final int foor = 15;
+  public static final int por = 40;
+  public static final int ComentarioMultiLinea = 56;
+  public static final int id = 52;
+  public static final int incremento = 43;
+  public static final int staatic = 23;
+  public static final int object = 12;
+  public static final int retuurn = 6;
+  public static final int priivate = 19;
   public static final int voiid = 4;
-  public static final int not = 45;
-  public static final int and = 43;
-  public static final int decremento = 42;
-  public static final int iint = 5;
-  public static final int menorQ = 33;
-  public static final int div = 39;
-  public static final int num = 46;
-  public static final int asignacion = 31;
-  public static final int decimal = 48;
-  public static final int cadena = 49;
+  public static final int not = 47;
+  public static final int and = 45;
+  public static final int decremento = 44;
+  public static final int iint = 7;
+  public static final int menorQ = 35;
+  public static final int div = 41;
+  public static final int num = 51;
+  public static final int asignacion = 33;
+  public static final int decimal = 53;
+  public static final int cadena = 54;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "iimport",
   "claass",
   "voiid",
+  "breeak",
+  "retuurn",
   "iint",
   "bool",
   "string",
@@ -106,10 +114,14 @@ public class Simbolos {
   "and",
   "or",
   "not",
+  "casee",
+  "dosPtos",
+  "defauult",
   "num",
   "id",
   "decimal",
   "cadena",
+  "comilla",
   "ComentarioMultiLinea"
   };
 }

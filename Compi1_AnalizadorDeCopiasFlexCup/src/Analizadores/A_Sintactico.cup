@@ -42,26 +42,27 @@ action code
 
 /*************************************  2da Area: Declaraciones **************************************/
 //------> declaracion de terminales 
-terminal iimport, claass, voiid,
+terminal iimport, claass, voiid,breeak,retuurn,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal, staatic,
          pto, ptoYcoma,coma, llavea, llavec, para, parc,
          mayor, menor, asignacion, mayorQ, menorQ, distinto, iguala,
          mas, menos, por, div, mod, incremento, decremento,
-         and, or,not,
-         num, id,decimal, cadena,
+         and, or,not, casee, dosPtos, defauult,
+         num, id,decimal, cadena,comilla,
          ComentarioMultiLinea;
 
 //------> declaracion de no terminales
 non terminal  INICIO,E,
-              PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR,
+              PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR, COND_SW,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, IF_ELSE,
               CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE, LLAMADA_FUNCIONES, PARAMETROS_FUNC,
-              COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, PASOFOR, SIGNOS;
+              COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, PASOFOR, SIGNOS, SWITCH, 
+              CASE, CASE1, DEFAULT, VALORES1, VALORES;
 
 
 //----> precedencia de menor a mayor 
@@ -129,17 +130,55 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES CUERPO_FUNCIONES1
 CUERPO_FUNCIONES1::= VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
                     |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
                     |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
-                    |iff para CONDICION parc llavea llavec
-                    |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
+                    |IF
                     |WHILE
                     |DO_WHILE
                     |LLAMADA_FUNCIONES
                     |FOR
+                    |SWITCH
+;
+
+SWITCH::= swiitch para COND_SW parc llavea CASE DEFAULT llavec
+         |swiitch para COND_SW parc llavea CASE llavec
+;
+
+COND_SW::= CONDICION
+          |VALORES1
+;
+
+CASE::= CASE CASE1
+       |CASE1
+;
+
+CASE1::= casee VALORES dosPtos CUERPO_FUNCIONES
+        |casee VALORES dosPtos CUERPO_FUNCIONES breeak ptoYcoma
+        |casee VALORES dosPtos
+        |casee VALORES dosPtos breeak ptoYcoma
+;
+
+VALORES::= comilla VALORES1 comilla
+          |cadena
+;
+
+VALORES1::= id
+           |num
+           |decimal
+;
+
+DEFAULT::= defauult dosPtos CUERPO_FUNCIONES
+          |defauult dosPtos CUERPO_FUNCIONES breeak ptoYcoma
+          |defauult dosPtos
+          |defauult dosPtos breeak ptoYcoma    
+;
+
+IF::=  iff para CONDICION parc llavea llavec
+      |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
 ;
 
 FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma PASOFOR parc llavea CUERPO_FUNCIONES llavec
       |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma PASOFOR parc llavea llavec
 ;
+
 PASO ::=  incremento
          |decremento
 ;
