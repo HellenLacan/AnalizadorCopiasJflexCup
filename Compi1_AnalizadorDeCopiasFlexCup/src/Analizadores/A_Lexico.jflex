@@ -106,12 +106,14 @@ ComentarioLinea =  "/" "/" [^}\n]*
 "||"         { System.out.println("Reconocio "+yytext()+" or"); return new Symbol(Simbolos.or, yycolumn, yyline, yytext()); }
 "!"          { System.out.println("Reconocio "+yytext()+" not"); return new Symbol(Simbolos.not, yycolumn, yyline, yytext()); }
 
-
 "+"         { System.out.println("Reconocio "+yytext()+" mas"); return new Symbol(Simbolos.mas, yycolumn, yyline, yytext()); }
 "-"         { System.out.println("Reconocio "+yytext()+" menos"); return new Symbol(Simbolos.menos, yycolumn, yyline, yytext()); }
 "*"         { System.out.println("Reconocio "+yytext()+" por"); return new Symbol(Simbolos.por, yycolumn, yyline, yytext()); }
 "/"         { System.out.println("Reconocio "+yytext()+" div"); return new Symbol(Simbolos.div, yycolumn, yyline, yytext()); }
 "%"         { System.out.println("Reconocio "+yytext()+" modo"); return new Symbol(Simbolos.mod, yycolumn, yyline, yytext()); }
+
+"++"         { System.out.println("Reconocio "+yytext()+" incremento"); return new Symbol(Simbolos.incremento, yycolumn, yyline, yytext()); }
+"--"         { System.out.println("Reconocio "+yytext()+" decremento"); return new Symbol(Simbolos.decremento, yycolumn, yyline, yytext()); }
 
 
 //-------> Simbolos ER
@@ -119,12 +121,12 @@ ComentarioLinea =  "/" "/" [^}\n]*
  {id}        { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
  {decimal}   { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
  {cadena}    { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
+//{ComentarioLinea}            {  System.out.println("Reconocio "+yytext()+" coment"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());}
 
 
 //------> Espacios
 [ \t\r\n\f]                  {/* Espacios en blanco, se ignoran */}
-{ComentarioMultiLinea}       { /* ignorar */ }
-{ComentarioLinea}            { /* ignorar */ }
+//{ComentarioMultiLinea}       { /* ignorar */ }
 
 //------> Errores Lexicos
 .                       { System.out.println("Error Lexico"+yytext()+" Linea "+yyline+" Columna "+yycolumn);}

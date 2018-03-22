@@ -39,23 +39,26 @@ public class Simbolos {
   public static final int iguala = 35;
   public static final int error = 1;
   public static final int mayor = 29;
-  public static final int or = 42;
+  public static final int or = 44;
   public static final int foor = 13;
   public static final int por = 38;
-  public static final int id = 45;
+  public static final int ComentarioMultiLinea = 50;
+  public static final int id = 47;
+  public static final int incremento = 41;
   public static final int staatic = 21;
   public static final int object = 10;
   public static final int priivate = 17;
   public static final int voiid = 4;
-  public static final int not = 43;
-  public static final int and = 41;
+  public static final int not = 45;
+  public static final int and = 43;
+  public static final int decremento = 42;
   public static final int iint = 5;
   public static final int menorQ = 33;
   public static final int div = 39;
-  public static final int num = 44;
+  public static final int num = 46;
   public static final int asignacion = 31;
-  public static final int decimal = 46;
-  public static final int cadena = 47;
+  public static final int decimal = 48;
+  public static final int cadena = 49;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -98,13 +101,16 @@ public class Simbolos {
   "por",
   "div",
   "mod",
+  "incremento",
+  "decremento",
   "and",
   "or",
   "not",
   "num",
   "id",
   "decimal",
-  "cadena"
+  "cadena",
+  "ComentarioMultiLinea"
   };
 }
 
