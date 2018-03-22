@@ -59,7 +59,7 @@ non terminal  INICIO,E,
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, IF_ELSE,
-              CONDICION, MULT, VALOR;
+              CONDICION, MULT, VALOR, WHILE;
 
 
 //----> precedencia de menor a mayor 
@@ -121,18 +121,24 @@ CUERPO_FUNCIONES::= CUERPO_FUNCIONES VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
                    |CUERPO_FUNCIONES VARIABLES ptoYcoma                              //Reconoce varias asignacion de variables\
                    |CUERPO_FUNCIONES iff para E  parc llavea llavec
                    |CUERPO_FUNCIONES iff para E parc llavea CUERPO_FUNCIONES llavec
+                   |CUERPO_FUNCIONES WHILE
                    |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
                    |iff para E parc llavea llavec
                    |iff para E parc llavea CUERPO_FUNCIONES llavec
-
+                   |WHILE
 ;
 
 VARIABLES::= VARIABLES coma id 
             |VARIABLES coma id ASIGNACION_VAR
             |id 
             |id ASIGNACION_VAR
+;
+
+WHILE::= whilee para E parc llavea CUERPO_FUNCIONES llavec
+         |whilee para E parc llavea llavec
+
 ;
 
 ASIGNACION_VAR::= asignacion E
