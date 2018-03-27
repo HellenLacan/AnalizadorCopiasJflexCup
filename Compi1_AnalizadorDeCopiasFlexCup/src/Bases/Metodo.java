@@ -17,12 +17,22 @@ public class Metodo {
     private String tipo_dato="";
     private String nombre="";    
     private int no_lineas=0;
+    private Object vars=null;
     private ArrayList<Parametro> arrayParametros = new ArrayList<Parametro>();
-    
-    public Metodo(String tipo_dato, String nombre, ArrayList<Parametro> arrayParametros ){
+    private ArrayList<Variable> arrayVariables = new ArrayList<Variable>();
+
+    public Metodo(String tipo_dato, String nombre, ArrayList<Parametro> arrayParametros,Object vars){
         this.tipo_dato=tipo_dato;
         this.nombre=nombre;
         this.arrayParametros=arrayParametros;
+        this.vars=vars;
+    }
+    
+    public Metodo(String tipo_dato, String nombre, ArrayList<Parametro> arrayParametros,ArrayList<Variable> ArrayVariables){
+        this.tipo_dato=tipo_dato;
+        this.nombre=nombre;
+        this.arrayParametros=arrayParametros;
+        this.arrayVariables=ArrayVariables;
     }
     
     public String getVisibilidad() {

@@ -5,13 +5,17 @@ import java_cup.runtime.Symbol;
 import java.util.ArrayList;
 import Bases.*;
 
-/**********************************  Codigo para el parser, variables, metodos **********************************/
+/**********************************  Codigo para el parser, variables, 
+
+ **********************************/
 
 parser code
 {:
     public String resultado="";
     ArrayList<Metodo> misMetodos=new ArrayList<Metodo>();
     ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
+    ArrayList<Variable> nuevo=new ArrayList<Variable>();
+
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -41,7 +45,6 @@ parser code
 
     public ArrayList<Variable> almacenar_variables(Object var,Object vis,Object tipo, Object e){
         System.out.println(var+" h i"+vis+" "+tipo);
-        ArrayList<Variable> nuevo=new ArrayList<Variable>();
         String vars= String.valueOf(var);
         String variables[]=vars.split(",");
         
@@ -63,7 +66,7 @@ parser code
         return nuevo;  
     }
 
-    public ArrayList<Metodo> almacenar_metodos(Object tipo_dato, Object id, Object parametro){
+    public ArrayList<Metodo> almacenar_metodos(Object tipo_dato, Object id, Object parametro, ArrayList<Variable> arrayvars){
          String temp="";
          ArrayList<Parametro> misParametros=new ArrayList<Parametro>();
          String param= String.valueOf(parametro);
@@ -90,7 +93,7 @@ parser code
                  System.out.println(splitdos[1]+"\n");
             }
             
-            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misMetodos.add(miMetodo);
             return misMetodos;
 
@@ -102,7 +105,7 @@ parser code
             Parametro misParam = new Parametro(vars[0], vars[1]);
             misParametros.add(misParam);
             
-            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misMetodos.add(miMetodo);
             return misMetodos;
          }
@@ -170,7 +173,7 @@ terminal iimport, claass, voiid,breeak,retuurn,truee,falsee,
          mas, menos, por, div, mod, incremento, decremento,
          and, or,not, casee, dosPtos, defauult,
          num, id,decimal, cadena,comilla,
-         ComentarioMultiLinea;
+         ComentarioMultiLinea,ne;
 
 //------> declaracion de no terminales
 non terminal  INICIO,E,
@@ -194,28 +197,60 @@ start with INICIO;
 
 /*************************************  23a area: Reglas Semanticas **************************************/
 
-INICIO::=PRINCIPALES:a {: :};
+INICIO::=PRINCIPALES:p 
+            {:
+              RESULT=p;
+            :}
+;
 
-PRINCIPALES::= PRINCIPALES PRINCIPALES1
-              |PRINCIPALES1
+PRINCIPALES::= PRINCIPALES PRINCIPALES1:p1
+                  {:
+                   RESULT=p1;
+                  :}
+              |PRINCIPALES1:p1
+                  {:
+                   RESULT=p1;
+                  :}
 ;
 
 PRINCIPALES1::=IMPORT
-               |CLASS
+                {:
+                  RESULT="";
+                :}
+               |CLASS:c
+                {:
+                  RESULT=c;
+                :}
 ;
 
 IMPORT::= iimport IMPORTS1 ptoYcoma
+            {:
+              RESULT="";
+            :}
 ;
 
-IMPORTS1::= IMPORTS1 pto id
-           |IMPORTS1 pto por
+IMPORTS1::= IMPORTS1:i pto id
+            {:
+              RESULT="";
+            :}
+           |IMPORTS1:i pto por
+            {:
+              RESULT="";
+            :}
            |id
+            {:
+              RESULT="";
+            :}
 ;
 
 CLASS::= VISIBILIDAD claass id CUERPO_CLASE:cc id
-            {:RESULT=cc;:}
+            {:
+              RESULT=cc;
+            :}
          |claass id CUERPO_CLASE:cc id
-            {:RESULT=cc;:}
+            {:
+              RESULT=cc;
+            :}
 ;
 
 CUERPO_CLASE::= llavea DECLARACIONES_CLASE:dc llavec
@@ -253,28 +288,36 @@ DECLARACIONES_CLASE1::= VISIBILIDAD MET_FUNC:met_fun
                              RESULT=nuevo; 
                             :}
                        |VISIBILIDAD CONSTRUCTOR
-                       |CONSTRUCTOR                     
+                             {:
+                             RESULT="";
+                             :}
+                       |CONSTRUCTOR
+                            {:
+                             RESULT="";
+                            :}
 ;
 
 MET_FUNC::= voiid:v id:i para parc llavea llavec
                  {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",null);
                    RESULT=nuevo;
                 :}
            |voiid:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
-                 {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
+                {: 
+                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",cf1);
                    RESULT=nuevo;
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea llavec 
                 {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,null);
                    RESULT=nuevo;
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec 
                 {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
-                   RESULT=nuevo;
+                  ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                  ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,cf1);
+                  RESULT=nuevo;
                 :}
            |TIPODATOS:v id:i para parc llavea llavec
                  {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,"");
@@ -296,7 +339,8 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
 
 CUERPO_FUNCIONES::= CUERPO_FUNCIONES:cf CUERPO_FUNCIONES1:cf1
                         {:
-                          RESULT=cf.toString()+cf1.toString();
+                         // RESULT=cf.toString()+cf1.toString();
+                            RESULT=cf1;
                         :}
                    |CUERPO_FUNCIONES1:cf
                         {:
@@ -316,14 +360,38 @@ CUERPO_FUNCIONES1::= VISIBILIDAD:vis TIPODATOS:tipo VARIABLES:var ptoYcoma
                           System.out.println("variable con tipo");
                           RESULT=nuevo; 
                         :}
-                    |VARIABLES ptoYcoma                                               
+                    |VARIABLES ptoYcoma
+                        {:
+                          RESULT="";
+                        :}
                     |IF
+                        {:
+                          RESULT="";
+                        :}
                     |WHILE
+                        {:
+                          RESULT="";
+                        :}
                     |DO_WHILE
+                        {:
+                          RESULT="";
+                        :}
                     |LLAMADA_FUNCIONES
+                        {:
+                          RESULT="";
+                        :}
                     |FOR
+                        {:
+                          RESULT="";
+                        :}
                     |SWITCH
+                        {:
+                          RESULT="";
+                        :}
                     |INSTANCIA
+                        {:
+                          RESULT="";
+                        :}
 ;
 
 PARAMETROS::= PARAMETROS:param coma TIPODATOS:tipo id:id
@@ -361,112 +429,298 @@ ASIGNACION_VAR::= asignacion EXPR:expr
 ;
 
 INSTANCIA::= id id asignacion id id para parc ptoYcoma
+            {:
+              RESULT="";
+            :}
 ;
 
 SWITCH::= swiitch para COND_SW parc llavea CASE DEFAULT llavec
+            {:
+              RESULT="";
+            :}
          |swiitch para COND_SW parc llavea CASE llavec
+            {:
+              RESULT="";
+            :}
 ;
 
 COND_SW::= CONDICION
+            {:
+              RESULT="";
+            :}
           |VALORES1
+            {:
+              RESULT="";
+            :}
 ;
 
 CASE::= CASE CASE1
+            {:
+              RESULT="";
+            :}
        |CASE1
+            {:
+              RESULT="";
+            :}
 ;
 
 CASE1::= casee VALORES dosPtos CUERPO_FUNCIONES
+            {:
+              RESULT="";
+            :}
         |casee VALORES dosPtos CUERPO_FUNCIONES BREAK_RETURN
+            {:
+              RESULT="";
+            :}
         |casee VALORES dosPtos
+            {:
+              RESULT="";
+            :}
         |casee VALORES dosPtos BREAK_RETURN
+            {:
+              RESULT="";
+            :}
 ;
 
 BREAK_RETURN::= breeak ptoYcoma
+                  {:
+                    RESULT="";
+                  :}
                |retuurn ptoYcoma
+                  {:
+                    RESULT="";
+                  :}
                |retuurn id asignacion EXPR ptoYcoma
+                  {:
+                    RESULT="";
+                  :}
                |retuurn id ptoYcoma
+                  {:
+                    RESULT="";
+                  :}
 
 ;
 
 VALORES::= comilla VALORES1 comilla
+            {:
+              RESULT="";
+            :}
           |cadena
+            {:
+              RESULT="";
+            :}
           |VALORES1
+            {:
+              RESULT="";
+            :}
 ;
 
 VALORES1::= id
+            {:
+              RESULT="";
+            :}
            |num
+            {:
+              RESULT="";
+            :}
            |decimal
+            {:
+              RESULT="";
+            :}
 ;
 
 DEFAULT::= defauult dosPtos CUERPO_FUNCIONES
+            {:
+              RESULT="";
+            :}
           |defauult dosPtos CUERPO_FUNCIONES BREAK_RETURN
+            {:
+              RESULT="";
+            :}
           |defauult dosPtos
+            {:
+              RESULT="";
+            :}
           |defauult dosPtos BREAK_RETURN    
+            {:
+              RESULT="";
+            :}
 ;
 
 IF::=  iff para CONDICION parc llavea llavec
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea llavec ELSE_IF
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea llavec ELSE_IF ELSE
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea llavec ELSE
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF ELSE
+            {:
+              RESULT="";
+            :}
       |iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE
+            {:
+              RESULT="";
+            :}
 ;
 
 ELSE_IF1::= elsee iff para CONDICION parc llavea CUERPO_FUNCIONES llavec
+                {:
+                  RESULT="";
+                :}
           |elsee iff para CONDICION parc llavea llavec 
+                {:
+                  RESULT="";
+                :}
 ;
 
 ELSE_IF::= ELSE_IF ELSE_IF1
+            {:
+              RESULT="";
+            :}
           |ELSE_IF1
+            {:
+              RESULT="";
+            :}
 ;
 
 ELSE::= elsee llavea CUERPO_FUNCIONES llavec
+            {:
+              RESULT="";
+            :}
        |elsee llavea llavec
+            {:
+              RESULT="";
+            :}
 ;
 
 FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONES llavec
+            {:
+              RESULT="";
+            :}
       |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea llavec
+            {:
+              RESULT="";
+            :}
 ;
 
 INCREMENTO::= id asignacion PASO
+                {:
+                  RESULT="";
+                :}
           |id asignacion EXPR
+                {:
+                  RESULT="";
+                :}
           |id PASO
+                {:
+                  RESULT="";
+                :}
           |id SIGNOS asignacion EXPR
+                {:
+                  RESULT="";
+                :}
 ;
 
 PASO ::=  incremento
+           {:
+             RESULT="";
+           :}
          |decremento
+           {:
+             RESULT="";
+           :}
 ;
 
 SIGNOS::= mas
+           {:
+             RESULT="";
+           :}
          |menos
+           {:
+             RESULT="";
+           :}
          |por
+           {:
+             RESULT="";
+           :}
          |div
+           {:
+             RESULT="";
+           :}
 ;
 
 LLAMADA_FUNCIONES::= id para parc ptoYcoma
+                        {:
+                         RESULT="";
+                       :}
                     |id para PARAMETROS_FUNC parc ptoYcoma
+                        {:
+                         RESULT="";
+                       :}
 ;
 
 PARAMETROS_FUNC::= PARAMETROS_FUNC coma id
-                   |id
+                       {:
+                         RESULT="";
+                       :}
+                       |id
 ;
 
 CONSTRUCTOR::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
+                {:
+                  RESULT="";
+                :}
               |id para PARAMETROS parc llavea llavec
+                {:
+                  RESULT="";
+                :}
               |id para parc llavea CUERPO_FUNCIONES llavec
+                {:
+                  RESULT="";
+                :}
               |id para parc llavea llavec
+                {:
+                  RESULT="";
+                :}
 ;
 
 WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONES llavec
+                {:
+                  RESULT="";
+                :}
         |whilee para CONDICION parc llavea llavec
+                {:
+                  RESULT="";
+                :}
 
 ;
 
 DO_WHILE::= doo llavea CUERPO_FUNCIONES llavec whilee para CONDICION parc ptoYcoma
+                {:
+                  RESULT="";
+                :}
            |doo llavea llavec whilee para CONDICION parc ptoYcoma
+                {:
+                  RESULT="";
+                :}
 ;
 
 VISIBILIDAD::= priivate:v 
@@ -522,15 +776,51 @@ EXPR::= EXPR:e mas:m EXPR:ex
 ;
 
 CONDICION::= EXPR mayor EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR menor EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR mayorQ EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR menorQ EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR iguala EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR distinto EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR asignacion EXPR
+                {:
+                  RESULT="";
+                :}
             |EXPR mod EXPR
+                {:
+                  RESULT="";
+                :}
             |not CONDICION
+                {:
+                  RESULT="";
+                :}
             |CONDICION and CONDICION
+                {:
+                  RESULT="";
+                :}
             |CONDICION or CONDICION
+                {:
+                  RESULT="";
+                :}
             |para CONDICION parc
+                {:
+                  RESULT="";
+                :}
 ;

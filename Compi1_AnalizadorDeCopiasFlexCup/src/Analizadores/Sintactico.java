@@ -803,6 +803,8 @@ public class Sintactico extends java_cup.runtime.lr_parser {
     public String resultado="";
     ArrayList<Metodo> misMetodos=new ArrayList<Metodo>();
     ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
+    ArrayList<Variable> nuevo=new ArrayList<Variable>();
+
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -832,7 +834,6 @@ public class Sintactico extends java_cup.runtime.lr_parser {
 
     public ArrayList<Variable> almacenar_variables(Object var,Object vis,Object tipo, Object e){
         System.out.println(var+" h i"+vis+" "+tipo);
-        ArrayList<Variable> nuevo=new ArrayList<Variable>();
         String vars= String.valueOf(var);
         String variables[]=vars.split(",");
         
@@ -854,7 +855,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
         return nuevo;  
     }
 
-    public ArrayList<Metodo> almacenar_metodos(Object tipo_dato, Object id, Object parametro){
+    public ArrayList<Metodo> almacenar_metodos(Object tipo_dato, Object id, Object parametro, ArrayList<Variable> arrayvars){
          String temp="";
          ArrayList<Parametro> misParametros=new ArrayList<Parametro>();
          String param= String.valueOf(parametro);
@@ -881,7 +882,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
                  System.out.println(splitdos[1]+"\n");
             }
             
-            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misMetodos.add(miMetodo);
             return misMetodos;
 
@@ -893,7 +894,7 @@ public class Sintactico extends java_cup.runtime.lr_parser {
             Parametro misParam = new Parametro(vars[0], vars[1]);
             misParametros.add(misParam);
             
-            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misMetodos.add(miMetodo);
             return misMetodos;
          }
@@ -1150,7 +1151,7 @@ class CUP$Sintactico$actions {
 		int met_funright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object met_fun = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
-                             RESULT=met_fun;
+                   //          RESULT=met_fun;
                            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1164,7 +1165,7 @@ class CUP$Sintactico$actions {
 		int met_funright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object met_fun = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
-                             RESULT=met_fun;
+                    //         RESULT=met_fun;
                            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1217,7 +1218,9 @@ class CUP$Sintactico$actions {
           case 20: // DECLARACIONES_CLASE1 ::= VISIBILIDAD CONSTRUCTOR 
             {
               Object RESULT =null;
-
+		
+                             RESULT="";
+                             
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1226,7 +1229,9 @@ class CUP$Sintactico$actions {
           case 21: // DECLARACIONES_CLASE1 ::= CONSTRUCTOR 
             {
               Object RESULT =null;
-
+		
+                             RESULT="";
+                            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1242,7 +1247,7 @@ class CUP$Sintactico$actions {
 		int iright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).right;
 		Object i = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)).value;
 		 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",null);
                    RESULT=nuevo;
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
@@ -1263,8 +1268,9 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
-                   RESULT=nuevo;
+                   //ArrayList cf1 = (ArrayList) cf;
+                   //ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",cf);
+                   //RESULT=nuevo;
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1284,7 +1290,7 @@ class CUP$Sintactico$actions {
 		int paramright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).right;
 		Object param = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)).value;
 		 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,null);
                    RESULT=nuevo;
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
@@ -1308,8 +1314,10 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
-                   RESULT=nuevo;
+                   ArrayList cf1 = (ArrayList) cf;
+                 // Variable cf1 = Variable.class.cast(cf);
+                  ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,cf1);
+                  RESULT=nuevo;
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1403,7 +1411,8 @@ class CUP$Sintactico$actions {
 		int cf1right = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object cf1 = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
-                          RESULT=cf.toString()+cf1.toString();
+                         // RESULT=cf.toString()+cf1.toString();
+                            RESULT=cf1;
                         
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES",17, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1468,7 +1477,9 @@ class CUP$Sintactico$actions {
           case 34: // CUERPO_FUNCIONES1 ::= VARIABLES ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1477,7 +1488,9 @@ class CUP$Sintactico$actions {
           case 35: // CUERPO_FUNCIONES1 ::= IF 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1486,7 +1499,9 @@ class CUP$Sintactico$actions {
           case 36: // CUERPO_FUNCIONES1 ::= WHILE 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1495,7 +1510,9 @@ class CUP$Sintactico$actions {
           case 37: // CUERPO_FUNCIONES1 ::= DO_WHILE 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1504,7 +1521,9 @@ class CUP$Sintactico$actions {
           case 38: // CUERPO_FUNCIONES1 ::= LLAMADA_FUNCIONES 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1513,7 +1532,9 @@ class CUP$Sintactico$actions {
           case 39: // CUERPO_FUNCIONES1 ::= FOR 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1522,7 +1543,9 @@ class CUP$Sintactico$actions {
           case 40: // CUERPO_FUNCIONES1 ::= SWITCH 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1531,7 +1554,9 @@ class CUP$Sintactico$actions {
           case 41: // CUERPO_FUNCIONES1 ::= INSTANCIA 
             {
               Object RESULT =null;
-
+		
+                          RESULT="";
+                        
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CUERPO_FUNCIONES1",32, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1655,7 +1680,9 @@ class CUP$Sintactico$actions {
           case 49: // INSTANCIA ::= id id asignacion id id para parc ptoYcoma 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("INSTANCIA",22, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1664,7 +1691,9 @@ class CUP$Sintactico$actions {
           case 50: // SWITCH ::= swiitch para COND_SW parc llavea CASE DEFAULT llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SWITCH",39, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1673,7 +1702,9 @@ class CUP$Sintactico$actions {
           case 51: // SWITCH ::= swiitch para COND_SW parc llavea CASE llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SWITCH",39, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1682,7 +1713,9 @@ class CUP$Sintactico$actions {
           case 52: // COND_SW ::= CONDICION 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("COND_SW",6, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1691,7 +1724,9 @@ class CUP$Sintactico$actions {
           case 53: // COND_SW ::= VALORES1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("COND_SW",6, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1700,7 +1735,9 @@ class CUP$Sintactico$actions {
           case 54: // CASE ::= CASE CASE1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE",40, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1709,7 +1746,9 @@ class CUP$Sintactico$actions {
           case 55: // CASE ::= CASE1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE",40, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1718,7 +1757,9 @@ class CUP$Sintactico$actions {
           case 56: // CASE1 ::= casee VALORES dosPtos CUERPO_FUNCIONES 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE1",41, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1727,7 +1768,9 @@ class CUP$Sintactico$actions {
           case 57: // CASE1 ::= casee VALORES dosPtos CUERPO_FUNCIONES BREAK_RETURN 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE1",41, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1736,7 +1779,9 @@ class CUP$Sintactico$actions {
           case 58: // CASE1 ::= casee VALORES dosPtos 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE1",41, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1745,7 +1790,9 @@ class CUP$Sintactico$actions {
           case 59: // CASE1 ::= casee VALORES dosPtos BREAK_RETURN 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CASE1",41, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1754,7 +1801,9 @@ class CUP$Sintactico$actions {
           case 60: // BREAK_RETURN ::= breeak ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                    RESULT="";
+                  
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("BREAK_RETURN",46, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1763,7 +1812,9 @@ class CUP$Sintactico$actions {
           case 61: // BREAK_RETURN ::= retuurn ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                    RESULT="";
+                  
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("BREAK_RETURN",46, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1772,7 +1823,9 @@ class CUP$Sintactico$actions {
           case 62: // BREAK_RETURN ::= retuurn id asignacion EXPR ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                    RESULT="";
+                  
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("BREAK_RETURN",46, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1781,7 +1834,9 @@ class CUP$Sintactico$actions {
           case 63: // BREAK_RETURN ::= retuurn id ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                    RESULT="";
+                  
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("BREAK_RETURN",46, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1790,7 +1845,9 @@ class CUP$Sintactico$actions {
           case 64: // VALORES ::= comilla VALORES1 comilla 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES",44, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1799,7 +1856,9 @@ class CUP$Sintactico$actions {
           case 65: // VALORES ::= cadena 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES",44, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1808,7 +1867,9 @@ class CUP$Sintactico$actions {
           case 66: // VALORES ::= VALORES1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES",44, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1817,7 +1878,9 @@ class CUP$Sintactico$actions {
           case 67: // VALORES1 ::= id 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES1",43, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1826,7 +1889,9 @@ class CUP$Sintactico$actions {
           case 68: // VALORES1 ::= num 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES1",43, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1835,7 +1900,9 @@ class CUP$Sintactico$actions {
           case 69: // VALORES1 ::= decimal 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("VALORES1",43, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1844,7 +1911,9 @@ class CUP$Sintactico$actions {
           case 70: // DEFAULT ::= defauult dosPtos CUERPO_FUNCIONES 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DEFAULT",42, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1853,7 +1922,9 @@ class CUP$Sintactico$actions {
           case 71: // DEFAULT ::= defauult dosPtos CUERPO_FUNCIONES BREAK_RETURN 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DEFAULT",42, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1862,7 +1933,9 @@ class CUP$Sintactico$actions {
           case 72: // DEFAULT ::= defauult dosPtos 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DEFAULT",42, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1871,7 +1944,9 @@ class CUP$Sintactico$actions {
           case 73: // DEFAULT ::= defauult dosPtos BREAK_RETURN 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DEFAULT",42, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1880,7 +1955,9 @@ class CUP$Sintactico$actions {
           case 74: // IF ::= iff para CONDICION parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1889,7 +1966,9 @@ class CUP$Sintactico$actions {
           case 75: // IF ::= iff para CONDICION parc llavea llavec ELSE_IF 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1898,7 +1977,9 @@ class CUP$Sintactico$actions {
           case 76: // IF ::= iff para CONDICION parc llavea llavec ELSE_IF ELSE 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1907,7 +1988,9 @@ class CUP$Sintactico$actions {
           case 77: // IF ::= iff para CONDICION parc llavea llavec ELSE 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1916,7 +1999,9 @@ class CUP$Sintactico$actions {
           case 78: // IF ::= iff para CONDICION parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1925,7 +2010,9 @@ class CUP$Sintactico$actions {
           case 79: // IF ::= iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1934,7 +2021,9 @@ class CUP$Sintactico$actions {
           case 80: // IF ::= iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE_IF ELSE 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1943,7 +2032,9 @@ class CUP$Sintactico$actions {
           case 81: // IF ::= iff para CONDICION parc llavea CUERPO_FUNCIONES llavec ELSE 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("IF",20, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1952,7 +2043,9 @@ class CUP$Sintactico$actions {
           case 82: // ELSE_IF1 ::= elsee iff para CONDICION parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE_IF1",48, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1961,7 +2054,9 @@ class CUP$Sintactico$actions {
           case 83: // ELSE_IF1 ::= elsee iff para CONDICION parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE_IF1",48, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1970,7 +2065,9 @@ class CUP$Sintactico$actions {
           case 84: // ELSE_IF ::= ELSE_IF ELSE_IF1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE_IF",47, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1979,7 +2076,9 @@ class CUP$Sintactico$actions {
           case 85: // ELSE_IF ::= ELSE_IF1 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE_IF",47, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1988,7 +2087,9 @@ class CUP$Sintactico$actions {
           case 86: // ELSE ::= elsee llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE",21, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1997,7 +2098,9 @@ class CUP$Sintactico$actions {
           case 87: // ELSE ::= elsee llavea llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("ELSE",21, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2006,7 +2109,9 @@ class CUP$Sintactico$actions {
           case 88: // FOR ::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("FOR",35, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-13)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2015,7 +2120,9 @@ class CUP$Sintactico$actions {
           case 89: // FOR ::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+              RESULT="";
+            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("FOR",35, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-12)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2024,7 +2131,9 @@ class CUP$Sintactico$actions {
           case 90: // INCREMENTO ::= id asignacion PASO 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("INCREMENTO",37, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2033,7 +2142,9 @@ class CUP$Sintactico$actions {
           case 91: // INCREMENTO ::= id asignacion EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("INCREMENTO",37, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2042,7 +2153,9 @@ class CUP$Sintactico$actions {
           case 92: // INCREMENTO ::= id PASO 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("INCREMENTO",37, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2051,7 +2164,9 @@ class CUP$Sintactico$actions {
           case 93: // INCREMENTO ::= id SIGNOS asignacion EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("INCREMENTO",37, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2060,7 +2175,9 @@ class CUP$Sintactico$actions {
           case 94: // PASO ::= incremento 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("PASO",36, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2069,7 +2186,9 @@ class CUP$Sintactico$actions {
           case 95: // PASO ::= decremento 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("PASO",36, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2078,7 +2197,9 @@ class CUP$Sintactico$actions {
           case 96: // SIGNOS ::= mas 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SIGNOS",38, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2087,7 +2208,9 @@ class CUP$Sintactico$actions {
           case 97: // SIGNOS ::= menos 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SIGNOS",38, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2096,7 +2219,9 @@ class CUP$Sintactico$actions {
           case 98: // SIGNOS ::= por 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SIGNOS",38, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2105,7 +2230,9 @@ class CUP$Sintactico$actions {
           case 99: // SIGNOS ::= div 
             {
               Object RESULT =null;
-
+		
+             RESULT="";
+           
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("SIGNOS",38, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2114,7 +2241,9 @@ class CUP$Sintactico$actions {
           case 100: // LLAMADA_FUNCIONES ::= id para parc ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                         RESULT="";
+                       
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("LLAMADA_FUNCIONES",29, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2123,7 +2252,9 @@ class CUP$Sintactico$actions {
           case 101: // LLAMADA_FUNCIONES ::= id para PARAMETROS_FUNC parc ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                         RESULT="";
+                       
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("LLAMADA_FUNCIONES",29, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2132,7 +2263,9 @@ class CUP$Sintactico$actions {
           case 102: // PARAMETROS_FUNC ::= PARAMETROS_FUNC coma id 
             {
               Object RESULT =null;
-
+		
+                         RESULT="";
+                       
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("PARAMETROS_FUNC",30, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2150,7 +2283,9 @@ class CUP$Sintactico$actions {
           case 104: // CONSTRUCTOR ::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONSTRUCTOR",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2159,7 +2294,9 @@ class CUP$Sintactico$actions {
           case 105: // CONSTRUCTOR ::= id para PARAMETROS parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONSTRUCTOR",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2168,7 +2305,9 @@ class CUP$Sintactico$actions {
           case 106: // CONSTRUCTOR ::= id para parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONSTRUCTOR",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2177,7 +2316,9 @@ class CUP$Sintactico$actions {
           case 107: // CONSTRUCTOR ::= id para parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONSTRUCTOR",5, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-4)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2186,7 +2327,9 @@ class CUP$Sintactico$actions {
           case 108: // WHILE ::= whilee para CONDICION parc llavea CUERPO_FUNCIONES llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("WHILE",27, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2195,7 +2338,9 @@ class CUP$Sintactico$actions {
           case 109: // WHILE ::= whilee para CONDICION parc llavea llavec 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("WHILE",27, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-5)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2204,7 +2349,9 @@ class CUP$Sintactico$actions {
           case 110: // DO_WHILE ::= doo llavea CUERPO_FUNCIONES llavec whilee para CONDICION parc ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DO_WHILE",28, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-8)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2213,7 +2360,9 @@ class CUP$Sintactico$actions {
           case 111: // DO_WHILE ::= doo llavea llavec whilee para CONDICION parc ptoYcoma 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DO_WHILE",28, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2531,7 +2680,9 @@ class CUP$Sintactico$actions {
           case 135: // CONDICION ::= EXPR mayor EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2540,7 +2691,9 @@ class CUP$Sintactico$actions {
           case 136: // CONDICION ::= EXPR menor EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2549,7 +2702,9 @@ class CUP$Sintactico$actions {
           case 137: // CONDICION ::= EXPR mayorQ EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2558,7 +2713,9 @@ class CUP$Sintactico$actions {
           case 138: // CONDICION ::= EXPR menorQ EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2567,7 +2724,9 @@ class CUP$Sintactico$actions {
           case 139: // CONDICION ::= EXPR iguala EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2576,7 +2735,9 @@ class CUP$Sintactico$actions {
           case 140: // CONDICION ::= EXPR distinto EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2585,7 +2746,9 @@ class CUP$Sintactico$actions {
           case 141: // CONDICION ::= EXPR asignacion EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2594,7 +2757,9 @@ class CUP$Sintactico$actions {
           case 142: // CONDICION ::= EXPR mod EXPR 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2603,7 +2768,9 @@ class CUP$Sintactico$actions {
           case 143: // CONDICION ::= not CONDICION 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2612,7 +2779,9 @@ class CUP$Sintactico$actions {
           case 144: // CONDICION ::= CONDICION and CONDICION 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2621,7 +2790,9 @@ class CUP$Sintactico$actions {
           case 145: // CONDICION ::= CONDICION or CONDICION 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -2630,7 +2801,9 @@ class CUP$Sintactico$actions {
           case 146: // CONDICION ::= para CONDICION parc 
             {
               Object RESULT =null;
-
+		
+                  RESULT="";
+                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CONDICION",23, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;

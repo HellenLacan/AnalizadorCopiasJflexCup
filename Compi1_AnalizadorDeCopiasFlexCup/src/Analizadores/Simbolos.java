@@ -12,6 +12,7 @@ public class Simbolos {
   public static final int bool = 10;
   public static final int dosPtos = 51;
   public static final int doo = 19;
+  public static final int ne = 59;
   public static final int comilla = 57;
   public static final int distinto = 38;
   public static final int puublic = 22;
@@ -126,7 +127,8 @@ public class Simbolos {
   "decimal",
   "cadena",
   "comilla",
-  "ComentarioMultiLinea"
+  "ComentarioMultiLinea",
+  "ne"
   };
 }
 

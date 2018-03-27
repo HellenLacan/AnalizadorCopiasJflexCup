@@ -66,6 +66,9 @@ ComentarioLinea =  "/" "/" [^}\n]*
 "class"     { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.claass, yycolumn, yyline, yytext()); }
 "void"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.voiid, yycolumn, yyline, yytext()); }
 
+"new"       { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.ne, yycolumn, yyline, yytext()); }
+
+
 "true"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.truee, yycolumn, yyline, yytext()); }
 "false"      { System.out.println("Reconocio "+yytext()+" Reservada"); return new Symbol(Simbolos.falsee, yycolumn, yyline, yytext()); }
 
