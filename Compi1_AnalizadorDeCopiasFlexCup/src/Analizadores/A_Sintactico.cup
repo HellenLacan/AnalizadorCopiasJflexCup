@@ -2,12 +2,16 @@
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
+import java.util.ArrayList;
+import Bases.*;
 
 /**********************************  Codigo para el parser, variables, metodos **********************************/
 
 parser code
 {:
     public String resultado="";
+    ArrayList<Metodo> misMetodos=new ArrayList<Metodo>();
+    ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -21,7 +25,7 @@ parser code
         System.out.println("\t\tFila: "+fila);
         System.out.println("\t\tColumna: "+columna);
     }
-
+    
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
     {        
@@ -34,6 +38,121 @@ parser code
         System.out.println("\t\tFila: "+fila);
         System.out.println("\t\tColumna: "+columna);
     }
+
+    public ArrayList<Variable> almacenar_variables(Object var,Object vis,Object tipo, Object e){
+        System.out.println(var+" h i"+vis+" "+tipo);
+        ArrayList<Variable> nuevo=new ArrayList<Variable>();
+        String vars= String.valueOf(var);
+        String variables[]=vars.split(",");
+        
+        if(vis!=null){
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(i);     
+                Variable temp=new Variable(vis.toString(),tipo.toString(),variables[i],"");
+                System.out.println("Cualquier cosa");
+                nuevo.add(temp);
+            }
+        }else{
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(tipo.toString()+variables[i]);
+                Variable temp=new Variable(tipo.toString(),variables[i],"");
+                nuevo.add(temp);
+            }
+        }
+        System.out.println("sillegas");
+        return nuevo;  
+    }
+
+    public ArrayList<Metodo> almacenar_metodos(Object tipo_dato, Object id, Object parametro){
+         String temp="";
+         ArrayList<Parametro> misParametros=new ArrayList<Parametro>();
+         String param= String.valueOf(parametro);
+         System.out.println("Estos son todos parametros de la funcion " + parametro);
+         
+        for(int i=0; i<param.length(); i++){
+             char c = param.charAt(i); 
+             if(c=='$'){
+                temp="$";
+                break;
+             }else{
+                temp="";
+            }
+         }
+         
+         if(temp.equals("$")){
+            String variables[]=param.split("\\$");
+            String[] splitdos = null;
+            for(int i=0; i<variables.length; i++){
+                 splitdos=variables[i].split("\\&");
+                 Parametro misParam = new Parametro(splitdos[0], splitdos[1]);
+                 misParametros.add(misParam);
+                 System.out.println(splitdos[0]);
+                 System.out.println(splitdos[1]+"\n");
+            }
+            
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            misMetodos.add(miMetodo);
+            return misMetodos;
+
+         }else{
+            String vars[]=param.split("\\&");
+            System.out.println("jeje"+vars[0]);
+            System.out.println("jeje"+vars[1]);
+            
+            Parametro misParam = new Parametro(vars[0], vars[1]);
+            misParametros.add(misParam);
+            
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), misParametros);
+            misMetodos.add(miMetodo);
+            return misMetodos;
+         }
+         
+    }
+
+    public ArrayList<Funcion> almacenar_funciones(Object tipo_dato, Object id, Object parametro){
+         String temp="";
+         ArrayList<Parametro> misParametros=new ArrayList<Parametro>();
+         String param= String.valueOf(parametro);
+         System.out.println("Estos son todos parametros de la funcion " + parametro);
+         
+        for(int i=0; i<param.length(); i++){
+             char c = param.charAt(i); 
+             if(c=='$'){
+                temp="$";
+                break;
+             }else{
+                temp="";
+            }
+         }
+         
+         if(temp.equals("$")){
+            String variables[]=param.split("\\$");
+            String[] splitdos = null;
+            for(int i=0; i<variables.length; i++){
+                 splitdos=variables[i].split("\\&");
+                 Parametro misParam = new Parametro(splitdos[0], splitdos[1]);
+                 misParametros.add(misParam);
+                 System.out.println(splitdos[0]);
+                 System.out.println(splitdos[1]+"\n");
+            }
+            
+            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros);
+            misFunciones.add(miFuncion);
+            return misFunciones;
+
+         }else{
+            String vars[]=param.split("\\&");
+            System.out.println("jeje"+vars[0]);
+            System.out.println("jeje"+vars[1]);
+            
+            Parametro misParam = new Parametro(vars[0], vars[1]);
+            misParametros.add(misParam);
+            
+            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros);
+            misFunciones.add(miFuncion);
+            return misFunciones;
+         }
+    }
 :}
 
 /************************************* Codigo para las acciones gramaticales *********************************/
@@ -42,7 +161,7 @@ action code
 
 /*************************************  2da Area: Declaraciones **************************************/
 //------> declaracion de terminales 
-terminal iimport, claass, voiid,breeak,retuurn,
+terminal iimport, claass, voiid,breeak,retuurn,truee,falsee,
          iint, bool, string, chaar, doublee, object,
          iff, elsee, foor, whilee, doo, swiitch,
          priivate, puublic, prootected, fiinal, staatic,
@@ -59,7 +178,7 @@ non terminal  INICIO,E,
               CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
-              IF, ELSE,
+              IF, ELSE, INSTANCIA,
               CONDICION, EXPR, MULT, VALOR, WHILE, DO_WHILE, LLAMADA_FUNCIONES, PARAMETROS_FUNC,
               COMENTARIO_LINEA, CUERPO_FUNCIONES1, DECLARACIONES_CLASE1, PRINCIPALES1, FOR, PASO, INCREMENTO, SIGNOS, SWITCH, 
               CASE, CASE1, DEFAULT, VALORES1, VALORES, INCREMENTOS_VAR, BREAK_RETURN, ELSE_IF, ELSE_IF1, CUERPO_FUNCIONESR1;
@@ -93,66 +212,155 @@ IMPORTS1::= IMPORTS1 pto id
            |id
 ;
 
-CLASS::= VISIBILIDAD claass id CUERPO_CLASE id 
-         |claass id CUERPO_CLASE id 
+CLASS::= VISIBILIDAD claass id CUERPO_CLASE:cc id
+            {:RESULT=cc;:}
+         |claass id CUERPO_CLASE:cc id
+            {:RESULT=cc;:}
 ;
 
-CUERPO_CLASE::= llavea DECLARACIONES_CLASE llavec
+CUERPO_CLASE::= llavea DECLARACIONES_CLASE:dc llavec
+                    {:RESULT=dc;:}
                |llavea llavec
+                    {:RESULT="";:}
 ;
 
-DECLARACIONES_CLASE::= DECLARACIONES_CLASE DECLARACIONES_CLASE1
-                      |DECLARACIONES_CLASE1
+DECLARACIONES_CLASE::= DECLARACIONES_CLASE:dc DECLARACIONES_CLASE1:dc1
+                            {:RESULT=dc1;:}
+                      |DECLARACIONES_CLASE1:dc1
+                            {:RESULT=dc1;:}
 ;
 
-DECLARACIONES_CLASE1::= VISIBILIDAD MET_FUNC
-                       |MET_FUNC     
-                       |VISIBILIDAD TIPODATOS VARIABLES ptoYcoma   
-                       |TIPODATOS VARIABLES ptoYcoma  
+DECLARACIONES_CLASE1::= VISIBILIDAD MET_FUNC:met_fun
+                           {:
+                             RESULT=met_fun;
+                           :}
+                       |MET_FUNC:met_fun 
+                           {:
+                             RESULT=met_fun;
+                           :}
+                       |VISIBILIDAD:vis TIPODATOS:tipo VARIABLES:var ptoYcoma
+                           {:
+                             System.out.println("Variable con vis");
+                             ArrayList<Variable> nuevo = almacenar_variables(var,vis,tipo,null);
+                             System.out.println("variable con tipo");
+                             RESULT=nuevo; 
+                           :}
+                       |TIPODATOS:tipo VARIABLES:var ptoYcoma 
+                            {:
+                             System.out.println("variable sin vis");
+                             ArrayList<Variable> nuevo = almacenar_variables(var,null,tipo,null);
+                             System.out.println("variable sin vis1 "+tipo.toString()+" "+var.toString());
+                             RESULT=nuevo; 
+                            :}
                        |VISIBILIDAD CONSTRUCTOR
                        |CONSTRUCTOR                     
 ;
 
-MET_FUNC::= voiid id para parc llavea llavec                                         //Reconoce metodo void sin cuerpo sin parametros
-           |voiid id para parc llavea CUERPO_FUNCIONES llavec                        //Reconoce metodo void con cuerpo sin parametros
-           |voiid id para PARAMETROS parc llavea llavec                              //Reconoce metodo void sin cuerpo con parametros
-           |voiid id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec             //Reconoce metodo void con cuerpo con parametros
-           |TIPODATOS id para parc llavea llavec                                     //Reconoce Funcion sin cuerpo sin parametros
-           |TIPODATOS id para parc llavea CUERPO_FUNCIONES llavec                    //Reconoce Funcion con cuerpo sin parametros
-           |TIPODATOS id para PARAMETROS parc llavea llavec                          //Reconoce Funcion sin cuerpo con parametros
-           |TIPODATOS id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec         //Reconoce Funcion con cuerpo con parametros
+MET_FUNC::= voiid:v id:i para parc llavea llavec
+                 {: 
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
+                   RESULT=nuevo;
+                :}
+           |voiid:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
+                 {: 
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"");
+                   RESULT=nuevo;
+                :}
+           |voiid:v id:i para PARAMETROS:param parc llavea llavec 
+                {: 
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
+                   RESULT=nuevo;
+                :}
+           |voiid:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec 
+                {: 
+                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param);
+                   RESULT=nuevo;
+                :}
+           |TIPODATOS:v id:i para parc llavea llavec
+                 {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,"");
+                   RESULT=nuevo;
+                :}  
+           |TIPODATOS:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
+                  {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,"");
+                   RESULT=nuevo;
+                :}  
+           |TIPODATOS:v id:i para PARAMETROS:param parc llavea llavec 
+                {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,param);
+                   RESULT=nuevo;
+                :}  
+           |TIPODATOS:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES llavec
+                {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,param);
+                   RESULT=nuevo;
+                :}  
 ;
 
-CUERPO_FUNCIONES::= CUERPO_FUNCIONES CUERPO_FUNCIONES1
-                   |CUERPO_FUNCIONES1
+CUERPO_FUNCIONES::= CUERPO_FUNCIONES:cf CUERPO_FUNCIONES1:cf1
+                        {:
+                          RESULT=cf.toString()+cf1.toString();
+                        :}
+                   |CUERPO_FUNCIONES1:cf
+                        {:
+                          RESULT=cf;
+                        :}
 ;
 
-CUERPO_FUNCIONES1::= VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
-                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
-                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
+CUERPO_FUNCIONES1::= VISIBILIDAD:vis TIPODATOS:tipo VARIABLES:var ptoYcoma                         
+                        {:System.out.println(vis.toString()+" "+var.toString());
+                          ArrayList<Variable> nuevo = almacenar_variables(var,vis,tipo,null);
+                          System.out.println("variable con tipo");
+                          RESULT=nuevo; 
+                        :}
+                    |TIPODATOS:tipo VARIABLES:var ptoYcoma                                     
+                        {:System.out.println(var.toString());
+                          ArrayList<Variable> nuevo = almacenar_variables(var,null,tipo,null);
+                          System.out.println("variable con tipo");
+                          RESULT=nuevo; 
+                        :}
+                    |VARIABLES ptoYcoma                                               
                     |IF
                     |WHILE
                     |DO_WHILE
                     |LLAMADA_FUNCIONES
                     |FOR
                     |SWITCH
+                    |INSTANCIA
 ;
 
-CUERPO_FUNCIONESR::= CUERPO_FUNCIONESR CUERPO_FUNCIONESR1
-                   |CUERPO_FUNCIONESR1
+PARAMETROS::= PARAMETROS:param coma TIPODATOS:tipo id:id
+                    {:String temp =param+"$$"+tipo+"&&"+id;
+                      RESULT=param+"$"+tipo+"&"+id;
+                    :}
+             |TIPODATOS:tipo id:id
+                    {:String temp=tipo+"&&"+id;
+                      RESULT=temp=tipo+"&"+id;
+                    :}
 ;
 
+VARIABLES::= VARIABLES:vars coma id:id                                          
+               {:RESULT=vars+","+id;
+                 System.out.println("VARS1");
+                 System.out.println(vars + " " + id);:}
+            |VARIABLES:vars coma id:id ASIGNACION_VAR                
+               {:
+                 System.out.println("VARS2");
+                 System.out.println(vars + " " + id);
+                 RESULT=vars+","+id;:}
+            |id:id                                                            
+               {:RESULT=id;
+                 System.out.println("VARS3");
+                 System.out.println(id);:}
+              
+            |id:id  ASIGNACION_VAR:asign                                    
+               {:   System.out.println("VARS4");
+                    System.out.println(id + " " + asign +"VARS4" );
+                    RESULT=id;:}
+;
+ 
+ASIGNACION_VAR::= asignacion EXPR:expr               
+                   {:RESULT=expr;:}
+;
 
-CUERPO_FUNCIONESR1::= VISIBILIDAD TIPODATOS VARIABLES ptoYcoma                         //Reconoce una variable con visibilidad  
-                    |TIPODATOS VARIABLES ptoYcoma                                     //Reconoce una variable sin visibilidad
-                    |VARIABLES ptoYcoma                                               //Reconoce una asignacion de variables
-                    |IF
-                    |WHILE
-                    |DO_WHILE
-                    |LLAMADA_FUNCIONES
-                    |FOR
-                    |SWITCH
-                    |BREAK_RETURN
+INSTANCIA::= id id asignacion id id para parc ptoYcoma
 ;
 
 SWITCH::= swiitch para COND_SW parc llavea CASE DEFAULT llavec
@@ -167,8 +375,8 @@ CASE::= CASE CASE1
        |CASE1
 ;
 
-CASE1::= casee VALORES dosPtos CUERPO_FUNCIONESR
-        |casee VALORES dosPtos CUERPO_FUNCIONESR BREAK_RETURN
+CASE1::= casee VALORES dosPtos CUERPO_FUNCIONES
+        |casee VALORES dosPtos CUERPO_FUNCIONES BREAK_RETURN
         |casee VALORES dosPtos
         |casee VALORES dosPtos BREAK_RETURN
 ;
@@ -176,10 +384,13 @@ CASE1::= casee VALORES dosPtos CUERPO_FUNCIONESR
 BREAK_RETURN::= breeak ptoYcoma
                |retuurn ptoYcoma
                |retuurn id asignacion EXPR ptoYcoma
+               |retuurn id ptoYcoma
+
 ;
 
 VALORES::= comilla VALORES1 comilla
           |cadena
+          |VALORES1
 ;
 
 VALORES1::= id
@@ -187,8 +398,8 @@ VALORES1::= id
            |decimal
 ;
 
-DEFAULT::= defauult dosPtos CUERPO_FUNCIONESR
-          |defauult dosPtos CUERPO_FUNCIONESR BREAK_RETURN
+DEFAULT::= defauult dosPtos CUERPO_FUNCIONES
+          |defauult dosPtos CUERPO_FUNCIONES BREAK_RETURN
           |defauult dosPtos
           |defauult dosPtos BREAK_RETURN    
 ;
@@ -215,7 +426,7 @@ ELSE::= elsee llavea CUERPO_FUNCIONES llavec
        |elsee llavea llavec
 ;
 
-FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONESR llavec
+FOR::= foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea CUERPO_FUNCIONES llavec
       |foor para TIPODATOS id asignacion EXPR ptoYcoma CONDICION ptoYcoma INCREMENTO parc llavea llavec
 ;
 
@@ -249,13 +460,7 @@ CONSTRUCTOR::= id para PARAMETROS parc llavea CUERPO_FUNCIONES llavec
               |id para parc llavea llavec
 ;
 
-VARIABLES::= VARIABLES coma id 
-            |VARIABLES coma id ASIGNACION_VAR
-            |id 
-            |id ASIGNACION_VAR
-;
-
-WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONESR llavec
+WHILE::= whilee para CONDICION parc llavea CUERPO_FUNCIONES llavec
         |whilee para CONDICION parc llavea llavec
 
 ;
@@ -264,38 +469,56 @@ DO_WHILE::= doo llavea CUERPO_FUNCIONES llavec whilee para CONDICION parc ptoYco
            |doo llavea llavec whilee para CONDICION parc ptoYcoma
 ;
 
-ASIGNACION_VAR::= asignacion EXPR
+VISIBILIDAD::= priivate:v 
+                 {:RESULT=v;:}
+              |puublic:v 
+                 {:RESULT=v;:}    
+              |prootected:v 
+                 {:RESULT=v;:}
+              |fiinal:v
+                 {:RESULT=v;:}
+              |staatic:v 
+                 {:RESULT=v;:}
 ;
 
-PARAMETROS::= PARAMETROS coma TIPODATOS id
-             |TIPODATOS id
+TIPODATOS::= iint:t
+               {:RESULT=t;:}
+            |bool:t
+               {:RESULT=t;:}
+            |string:t
+               {:RESULT=t;:} 
+            |chaar:t
+               {:RESULT=t;:} 
+            |doublee:t
+               {:RESULT=t;:} 
+            |object:t
+               {:RESULT=t;:}
 ;
 
-VISIBILIDAD::= priivate
-              |puublic
-              |prootected
-              |fiinal
-              |staatic
-;
-
-TIPODATOS::= iint
-            |bool
-            |string 
-            |chaar 
-            |doublee 
-            |object
-;
-
-EXPR::= EXPR mas EXPR
-       |EXPR menos EXPR
-       |EXPR por EXPR
-       |EXPR div EXPR
-       |menos EXPR
-       |num:e 
-       |id:id 
-       |cadena
-       |decimal
-       |para EXPR:e parc
+EXPR::= EXPR:e mas:m EXPR:ex    
+          {:RESULT=e.toString()+m.toString()+ex.toString();:}
+       |EXPR:e menos:m EXPR:ex  
+          {:RESULT=e.toString()+m.toString()+ex.toString();:}
+       |EXPR:e por:p EXPR:ex 
+          {:RESULT=e.toString()+p.toString()+ex.toString();:}
+       |EXPR:e div:d EXPR:ex  
+          {:RESULT=e.toString()+d.toString()+ex.toString();:}
+       |menos:e EXPR:ex    
+          {:RESULT=e.toString()+ex.toString();:}
+       |num:e               
+          {:RESULT=e.toString();:} 
+       |id:id                 
+          {:RESULT=id.toString();:}
+       |cadena:c            
+          {:RESULT=c.toString();:}
+       |decimal:d             
+          {:RESULT=d.toString();:}
+       |truee:t              
+          {:RESULT=t.toString();:}
+       |falsee:f              
+          {:RESULT=f.toString();:}
+       |para:pa EXPR:e parc:pc
+          {:RESULT=pa.toString()+e.toString()+pc.toString();:}
 ;
 
 CONDICION::= EXPR mayor EXPR

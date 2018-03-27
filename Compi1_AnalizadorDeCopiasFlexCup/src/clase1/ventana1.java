@@ -94,9 +94,10 @@ public class ventana1 extends javax.swing.JFrame {
 
             Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
             sintactico.parse();
-//new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
+            //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
             //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
             this.jLabel1.setText("Resultado " + sintactico.resultado);
+            System.out.println("Generados automaticamente");
         } catch (Exception ex) {
             Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
         }
