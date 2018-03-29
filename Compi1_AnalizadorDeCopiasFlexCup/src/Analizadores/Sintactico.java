@@ -1321,10 +1321,16 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
+                   if(cf!=""){
                    nuevo=new ArrayList<Variable>();
                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
                    RESULT=newMetodo;
+                   }else{
+                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
+                   RESULT=newMetodo;
+                   }
+                  
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1369,10 +1375,16 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
-                  nuevo=new ArrayList<Variable>();
-                  ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                  ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
-                  RESULT=newMetodo;
+                  if(cf!=""){
+                    nuevo=new ArrayList<Variable>();
+                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
+                    RESULT=newMetodo;
+                  }else{
+                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
+                    RESULT=newMetodo;
+                  }
+                 
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1545,6 +1557,9 @@ class CUP$Sintactico$actions {
           case 34: // CUERPO_FUNCIONES1 ::= VARIABLES ptoYcoma 
             {
               Object RESULT =null;
+		int varleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int varright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Object var = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
                           RESULT="";
                         

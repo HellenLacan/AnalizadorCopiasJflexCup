@@ -320,10 +320,16 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
                 :}
            |voiid:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
                 {: 
-                   nuevo=new ArrayList<Variable>();
-                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
-                   RESULT=newMetodo;
+                   if(cf!=""){
+                     nuevo=new ArrayList<Variable>();
+                     ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
+                     RESULT=newMetodo;
+                   }else{
+                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
+                     RESULT=newMetodo;
+                   }
+                  
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea llavec 
                 {: 
@@ -333,10 +339,16 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec 
                 {: 
-                  nuevo=new ArrayList<Variable>();
-                  ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                  ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
-                  RESULT=newMetodo;
+                  if(cf!=""){
+                    nuevo=new ArrayList<Variable>();
+                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
+                    RESULT=newMetodo;
+                  }else{
+                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
+                    RESULT=newMetodo;
+                  }
+                 
                 :}
            |TIPODATOS:v id:i para parc llavea llavec
                  {:
@@ -389,7 +401,7 @@ CUERPO_FUNCIONES1::= VISIBILIDAD:vis TIPODATOS:tipo VARIABLES:var ptoYcoma
                           System.out.println("variable con tipo");
                           RESULT=nuevo; 
                         :}
-                    |VARIABLES ptoYcoma
+                    |VARIABLES:var ptoYcoma
                         {:
                           RESULT="";
                         :}
