@@ -804,6 +804,8 @@ public class Sintactico extends java_cup.runtime.lr_parser {
     ArrayList<Metodo> misMetodos=new ArrayList<Metodo>();
     ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
     ArrayList<Variable> nuevo=new ArrayList<Variable>();
+    ArrayList<Variable> variablesClase=new ArrayList<Variable>();
+    ArrayList<Variable> variablesClaseSA=new ArrayList<Variable>();
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -848,6 +850,29 @@ public class Sintactico extends java_cup.runtime.lr_parser {
                 System.out.println(tipo.toString()+variables[i]);
                 Variable temp=new Variable(tipo.toString(),variables[i],"");
                 nuevo.add(temp);
+            }
+        }
+        System.out.println("sillegas");
+        return nuevo;  
+    }
+
+    public ArrayList<Variable> almacenar_variables_clase(Object var,Object vis,Object tipo, Object e){
+        System.out.println(var+" h i"+vis+" "+tipo);
+        String vars= String.valueOf(var);
+        String variables[]=vars.split(",");
+        
+        if(vis!=null){
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(i);     
+                Variable temp=new Variable(vis.toString(),tipo.toString(),variables[i],"");
+                System.out.println("Cualquier cosa");
+                variablesClase.add(temp);
+            }
+        }else{
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(tipo.toString()+variables[i]);
+                Variable temp=new Variable(tipo.toString(),variables[i],"");
+                variablesClase.add(temp);
             }
         }
         System.out.println("sillegas");
@@ -956,7 +981,6 @@ public class Sintactico extends java_cup.runtime.lr_parser {
             return misFunciones;
          }
          }
-
         
     }
 
@@ -1123,11 +1147,21 @@ class CUP$Sintactico$actions {
           case 10: // CLASP ::= VISIBILIDAD claass id CUERPO_CLASE 
             {
               Object RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		int ccleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int ccright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object cc = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
-		         
-              RESULT=cc;
+		
+              Clase miClase= new Clase(id.toString(),variablesClase,misFunciones,misMetodos);
+              misMetodos=new ArrayList<Metodo>();
+              misFunciones=new ArrayList<Funcion>();
+              nuevo=new ArrayList<Variable>();
+              variablesClase=new ArrayList<Variable>();
+              variablesClaseSA=new ArrayList<Variable>();
+              System.out.println("holiiii");
+              RESULT=miClase;
             
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CLASP",8, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1137,11 +1171,21 @@ class CUP$Sintactico$actions {
           case 11: // CLASP ::= claass id CUERPO_CLASE 
             {
               Object RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
+		Object id = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		int ccleft = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).left;
 		int ccright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object cc = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
-              RESULT=cc;
+              Clase miClase= new Clase(id.toString(),variablesClase,misFunciones,misMetodos);
+              misMetodos=new ArrayList<Metodo>();
+              misFunciones=new ArrayList<Funcion>();
+              nuevo=new ArrayList<Variable>();
+              variablesClase=new ArrayList<Variable>();
+              variablesClaseSA=new ArrayList<Variable>();
+              System.out.println("holiiii");
+              RESULT=miClase;
             
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("CLASP",8, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1217,6 +1261,7 @@ class CUP$Sintactico$actions {
 		int met_funright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()).right;
 		Object met_fun = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.peek()).value;
 		
+                             System.out.println("holis te amo dije!");
                              RESULT=met_fun;
                            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
@@ -1238,9 +1283,10 @@ class CUP$Sintactico$actions {
 		Object var = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
                              System.out.println("Variable con vis");
-                             ArrayList<Variable> nuevo = almacenar_variables(var,vis,tipo,null);
-                             System.out.println("variable con tipo");
-                             RESULT=nuevo; 
+                             ArrayList<Variable> variablesClase = almacenar_variables_clase(var,vis,tipo,null);
+                             System.out.println("Variables de clase principal");
+                             System.out.println(var);
+                             RESULT=variablesClase; 
                            
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-3)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1258,9 +1304,9 @@ class CUP$Sintactico$actions {
 		Object var = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
                              System.out.println("variable sin vis");
-                             ArrayList<Variable> nuevo = almacenar_variables(var,null,tipo,null);
-                             System.out.println("variable sin vis1 "+tipo.toString()+" "+var.toString());
-                             RESULT=nuevo; 
+                             ArrayList<Variable> variablesClaseSA = almacenar_variables_clase(var,null,tipo,null);
+                             System.out.println("variable de clase principal "+tipo.toString()+" "+var.toString());
+                             RESULT=variablesClaseSA; 
                             
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("DECLARACIONES_CLASE1",33, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1322,15 +1368,20 @@ class CUP$Sintactico$actions {
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
                    if(cf!=""){
-                   nuevo=new ArrayList<Variable>();
-                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
-                   RESULT=newMetodo;
+                     nuevo=new ArrayList<Variable>();
+                     ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
+                     RESULT=newMetodo;
                    }else{
-                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
-                   RESULT=newMetodo;
+                      if(nuevo.size()>0){
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,nuevo);
+                        RESULT=newMetodo;
+                        nuevo=new ArrayList<Variable>();
+                    }else{
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
+                      RESULT=newMetodo;
+                    }                     
                    }
-                  
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1352,8 +1403,7 @@ class CUP$Sintactico$actions {
 		 
                    nuevo=new ArrayList<Variable>();
                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
-                   RESULT=newMetodo;
-                
+                     RESULT=newMetodo;                
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
           return CUP$Sintactico$result;
@@ -1379,10 +1429,16 @@ class CUP$Sintactico$actions {
                     nuevo=new ArrayList<Variable>();
                     ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
-                    RESULT=newMetodo;
-                  }else{
-                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
-                    RESULT=newMetodo;
+                    RESULT=newMetodo;   
+                 }else{
+                    if(nuevo.size()>0){
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,nuevo);
+                        RESULT=newMetodo;
+                        nuevo=new ArrayList<Variable>();
+                    }else{
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
+                      RESULT=newMetodo;
+                    }                  
                   }
                  
                 
@@ -1423,10 +1479,23 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		
-                    nuevo=new ArrayList<Variable>();
-                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList 
-                    ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,cf1);
-                    RESULT=newFuncion;
+                    if(cf!=""){
+                        nuevo=new ArrayList<Variable>();
+                        ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList 
+                        ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,cf1);
+                        RESULT=newFuncion;
+                    }else{ 
+                            if(nuevo.size()>0){
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,nuevo);
+                            RESULT=newFuncion;
+                            nuevo=new ArrayList<Variable>();
+                        }else{
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,null);
+                            RESULT=newFuncion;
+                        }
+                       
+                    }
+                
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }
@@ -1471,10 +1540,22 @@ class CUP$Sintactico$actions {
 		int cfright = ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).right;
 		Object cf = (Object)((java_cup.runtime.Symbol) CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-1)).value;
 		 
-                   nuevo=new ArrayList<Variable>();
-                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                   ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,cf1);
-                   RESULT=newFuncion;
+                   if(cf!=""){
+                        nuevo=new ArrayList<Variable>();
+                        ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                        ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,cf1);
+                        RESULT=newFuncion;
+                   }else{
+                         if(nuevo.size()>0){
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,nuevo);
+                            RESULT=newFuncion;
+                            nuevo=new ArrayList<Variable>(); 
+                       }else{
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,null);
+                            RESULT=newFuncion;
+                       }
+                   }
+                
                 
               CUP$Sintactico$result = parser.getSymbolFactory().newSymbol("MET_FUNC",16, ((java_cup.runtime.Symbol)CUP$Sintactico$stack.elementAt(CUP$Sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$Sintactico$stack.peek()), RESULT);
             }

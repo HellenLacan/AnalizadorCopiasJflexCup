@@ -99,7 +99,6 @@ public class ventana1 extends javax.swing.JFrame {
             this.jLabel1.setText("Resultado " + sintactico.resultado);
             System.out.println("Generados automaticamente");
         } catch (Exception ex) {
-
             Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }

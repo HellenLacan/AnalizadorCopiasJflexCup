@@ -15,6 +15,8 @@ parser code
     ArrayList<Metodo> misMetodos=new ArrayList<Metodo>();
     ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
     ArrayList<Variable> nuevo=new ArrayList<Variable>();
+    ArrayList<Variable> variablesClase=new ArrayList<Variable>();
+    ArrayList<Variable> variablesClaseSA=new ArrayList<Variable>();
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -59,6 +61,29 @@ parser code
                 System.out.println(tipo.toString()+variables[i]);
                 Variable temp=new Variable(tipo.toString(),variables[i],"");
                 nuevo.add(temp);
+            }
+        }
+        System.out.println("sillegas");
+        return nuevo;  
+    }
+
+    public ArrayList<Variable> almacenar_variables_clase(Object var,Object vis,Object tipo, Object e){
+        System.out.println(var+" h i"+vis+" "+tipo);
+        String vars= String.valueOf(var);
+        String variables[]=vars.split(",");
+        
+        if(vis!=null){
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(i);     
+                Variable temp=new Variable(vis.toString(),tipo.toString(),variables[i],"");
+                System.out.println("Cualquier cosa");
+                variablesClase.add(temp);
+            }
+        }else{
+            for(int i=0; i<=variables.length-1; i++){
+                System.out.println(tipo.toString()+variables[i]);
+                Variable temp=new Variable(tipo.toString(),variables[i],"");
+                variablesClase.add(temp);
             }
         }
         System.out.println("sillegas");
@@ -167,7 +192,6 @@ parser code
             return misFunciones;
          }
          }
-
         
     }
 
@@ -258,13 +282,27 @@ IMPORTS1::= IMPORTS1:i pto id
             :}
 ;
 
-CLASP::= VISIBILIDAD claass id CUERPO_CLASE:cc
-            {:         
-              RESULT=cc;
-            :}
-         |claass id CUERPO_CLASE:cc
+CLASP::= VISIBILIDAD claass id:id CUERPO_CLASE:cc
             {:
-              RESULT=cc;
+              Clase miClase= new Clase(id.toString(),variablesClase,misFunciones,misMetodos);
+              misMetodos=new ArrayList<Metodo>();
+              misFunciones=new ArrayList<Funcion>();
+              nuevo=new ArrayList<Variable>();
+              variablesClase=new ArrayList<Variable>();
+              variablesClaseSA=new ArrayList<Variable>();
+              System.out.println("holiiii");
+              RESULT=miClase;
+            :}
+         |claass id:id CUERPO_CLASE:cc
+            {:
+              Clase miClase= new Clase(id.toString(),variablesClase,misFunciones,misMetodos);
+              misMetodos=new ArrayList<Metodo>();
+              misFunciones=new ArrayList<Funcion>();
+              nuevo=new ArrayList<Variable>();
+              variablesClase=new ArrayList<Variable>();
+              variablesClaseSA=new ArrayList<Variable>();
+              System.out.println("holiiii");
+              RESULT=miClase;
             :}
 ;
 
@@ -286,21 +324,23 @@ DECLARACIONES_CLASE1::= VISIBILIDAD MET_FUNC:met_fun
                            :}
                        |MET_FUNC:met_fun 
                            {:
+                             System.out.println("holis te amo dije!");
                              RESULT=met_fun;
                            :}
                        |VISIBILIDAD:vis TIPODATOS:tipo VARIABLES:var ptoYcoma
                            {:
                              System.out.println("Variable con vis");
-                             ArrayList<Variable> nuevo = almacenar_variables(var,vis,tipo,null);
-                             System.out.println("variable con tipo");
-                             RESULT=nuevo; 
+                             ArrayList<Variable> variablesClase = almacenar_variables_clase(var,vis,tipo,null);
+                             System.out.println("Variables de clase principal");
+                             System.out.println(var);
+                             RESULT=variablesClase; 
                            :}
                        |TIPODATOS:tipo VARIABLES:var ptoYcoma 
                             {:
                              System.out.println("variable sin vis");
-                             ArrayList<Variable> nuevo = almacenar_variables(var,null,tipo,null);
-                             System.out.println("variable sin vis1 "+tipo.toString()+" "+var.toString());
-                             RESULT=nuevo; 
+                             ArrayList<Variable> variablesClaseSA = almacenar_variables_clase(var,null,tipo,null);
+                             System.out.println("variable de clase principal "+tipo.toString()+" "+var.toString());
+                             RESULT=variablesClaseSA; 
                             :}
                        |VISIBILIDAD CONSTRUCTOR
                              {:
@@ -326,27 +366,37 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
                      ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
                      RESULT=newMetodo;
                    }else{
-                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
-                     RESULT=newMetodo;
+                      if(nuevo.size()>0){
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,nuevo);
+                        RESULT=newMetodo;
+                        nuevo=new ArrayList<Variable>();
+                    }else{
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
+                      RESULT=newMetodo;
+                    }                     
                    }
-                  
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea llavec 
                 {: 
                    nuevo=new ArrayList<Variable>();
                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
-                   RESULT=newMetodo;
-                :}
+                     RESULT=newMetodo;                :}
            |voiid:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec 
                 {: 
                   if(cf!=""){
                     nuevo=new ArrayList<Variable>();
                     ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
                     ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
-                    RESULT=newMetodo;
-                  }else{
-                    ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
-                    RESULT=newMetodo;
+                    RESULT=newMetodo;   
+                 }else{
+                    if(nuevo.size()>0){
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,nuevo);
+                        RESULT=newMetodo;
+                        nuevo=new ArrayList<Variable>();
+                    }else{
+                        ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
+                      RESULT=newMetodo;
+                    }                  
                   }
                  
                 :}
@@ -358,10 +408,23 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
                 :}  
            |TIPODATOS:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
                   {:
-                    nuevo=new ArrayList<Variable>();
-                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList 
-                    ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,cf1);
-                    RESULT=newFuncion;
+                    if(cf!=""){
+                        nuevo=new ArrayList<Variable>();
+                        ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList 
+                        ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,cf1);
+                        RESULT=newFuncion;
+                    }else{ 
+                            if(nuevo.size()>0){
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,nuevo);
+                            RESULT=newFuncion;
+                            nuevo=new ArrayList<Variable>();
+                        }else{
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,null);
+                            RESULT=newFuncion;
+                        }
+                       
+                    }
+                
                 :}  
            |TIPODATOS:v id:i para PARAMETROS:param parc llavea llavec 
                 {:
@@ -371,10 +434,22 @@ MET_FUNC::= voiid:v id:i para parc llavea llavec
                 :}  
            |TIPODATOS:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec
                 {: 
-                   nuevo=new ArrayList<Variable>();
-                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                   ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,cf1);
-                   RESULT=newFuncion;
+                   if(cf!=""){
+                        nuevo=new ArrayList<Variable>();
+                        ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                        ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,cf1);
+                        RESULT=newFuncion;
+                   }else{
+                         if(nuevo.size()>0){
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,nuevo);
+                            RESULT=newFuncion;
+                            nuevo=new ArrayList<Variable>(); 
+                       }else{
+                            ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,null);
+                            RESULT=newFuncion;
+                       }
+                   }
+                
                 :}  
 ;
 

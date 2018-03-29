@@ -22,6 +22,7 @@ public class Clase {
     }
     
     public Clase(String nombre,ArrayList<Variable> arrayVariables, ArrayList<Funcion> arrayFunciones, ArrayList<Metodo> arrayMetodos) {
+        this.nombre=nombre;
         this.arrayVariables=arrayVariables;
         this.arrayFunciones=arrayFunciones;
         this.arrayMetodos=arrayMetodos;
