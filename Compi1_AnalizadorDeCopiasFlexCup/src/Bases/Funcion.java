@@ -17,11 +17,13 @@ public class Funcion {
     private String tipo_dato="";
     private int no_lineas=0;
     private ArrayList<Parametro> arrayParametros = new ArrayList<Parametro>();
+    private ArrayList<Variable> arrayVariables = new ArrayList<Variable>();
     
-    public Funcion(String tipo, String nombre, ArrayList<Parametro> arrayParametros ){
+    public Funcion(String tipo, String nombre, ArrayList<Parametro> arrayParametros,ArrayList<Variable> arrayVariables ){
         this.tipo_dato=tipo;
         this.nombre=nombre;
         this.arrayParametros=arrayParametros;
+        this.arrayVariables=arrayVariables;
     }
     
     public String getNombre() {
@@ -70,6 +72,14 @@ public class Funcion {
 
     public void setArrayParametros(ArrayList<Parametro> arrayParametros) {
         this.arrayParametros = arrayParametros;
+    }
+
+    public ArrayList<Variable> getArrayVariables() {
+        return arrayVariables;
+    }
+
+    public void setArrayVariables(ArrayList<Variable> arrayVariables) {
+        this.arrayVariables = arrayVariables;
     }
 
 

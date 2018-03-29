@@ -16,7 +16,6 @@ parser code
     ArrayList<Funcion> misFunciones=new ArrayList<Funcion>();
     ArrayList<Variable> nuevo=new ArrayList<Variable>();
 
-
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
     {        
@@ -72,7 +71,12 @@ parser code
          String param= String.valueOf(parametro);
          System.out.println("Estos son todos parametros de la funcion " + parametro);
          
-        for(int i=0; i<param.length(); i++){
+        if (param.equals("null")){
+            Metodo miMetodo = new Metodo(tipo_dato.toString(), id.toString(), null,arrayvars);
+            misMetodos.add(miMetodo);
+            return misMetodos;
+        }else{
+            for(int i=0; i<param.length(); i++){
              char c = param.charAt(i); 
              if(c=='$'){
                 temp="$";
@@ -109,16 +113,23 @@ parser code
             misMetodos.add(miMetodo);
             return misMetodos;
          }
-         
+        }
+
+        
     }
 
-    public ArrayList<Funcion> almacenar_funciones(Object tipo_dato, Object id, Object parametro){
+    public ArrayList<Funcion> almacenar_funciones(Object tipo_dato, Object id, Object parametro,ArrayList<Variable> arrayvars){
          String temp="";
          ArrayList<Parametro> misParametros=new ArrayList<Parametro>();
          String param= String.valueOf(parametro);
          System.out.println("Estos son todos parametros de la funcion " + parametro);
          
-        for(int i=0; i<param.length(); i++){
+         if(param.equals("null")){
+            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), null,arrayvars);
+            misFunciones.add(miFuncion);
+            return misFunciones;
+         }else{
+            for(int i=0; i<param.length(); i++){
              char c = param.charAt(i); 
              if(c=='$'){
                 temp="$";
@@ -139,7 +150,7 @@ parser code
                  System.out.println(splitdos[1]+"\n");
             }
             
-            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros);
+            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misFunciones.add(miFuncion);
             return misFunciones;
 
@@ -151,11 +162,15 @@ parser code
             Parametro misParam = new Parametro(vars[0], vars[1]);
             misParametros.add(misParam);
             
-            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros);
+            Funcion miFuncion = new Funcion(tipo_dato.toString(), id.toString(), misParametros,arrayvars);
             misFunciones.add(miFuncion);
             return misFunciones;
          }
+         }
+
+        
     }
+
 :}
 
 /************************************* Codigo para las acciones gramaticales *********************************/
@@ -178,7 +193,7 @@ terminal iimport, claass, voiid,breeak,retuurn,truee,falsee,
 //------> declaracion de no terminales
 non terminal  INICIO,E,
               PRINCIPALES, IMPORT, IMPORTS1, CONSTRUCTOR, COND_SW,CUERPO_FUNCIONESR,
-              CLASS, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
+              CLASP, CUERPO_CLASE, DECLARACIONES_CLASE, VISIBILIDAD, METODOS, PARAMETROS, TIPODATOS, 
               FUNCIONES, MET_FUNC, CUERPO_FUNCIONES,
               VARIABLES, ASIGNACION_VAR,
               IF, ELSE, INSTANCIA,
@@ -217,7 +232,7 @@ PRINCIPALES1::=IMPORT
                 {:
                   RESULT="";
                 :}
-               |CLASS:c
+               |CLASP:c
                 {:
                   RESULT=c;
                 :}
@@ -243,11 +258,11 @@ IMPORTS1::= IMPORTS1:i pto id
             :}
 ;
 
-CLASS::= VISIBILIDAD claass id CUERPO_CLASE:cc id
-            {:
+CLASP::= VISIBILIDAD claass id CUERPO_CLASE:cc
+            {:         
               RESULT=cc;
             :}
-         |claass id CUERPO_CLASE:cc id
+         |claass id CUERPO_CLASE:cc
             {:
               RESULT=cc;
             :}
@@ -299,41 +314,55 @@ DECLARACIONES_CLASE1::= VISIBILIDAD MET_FUNC:met_fun
 
 MET_FUNC::= voiid:v id:i para parc llavea llavec
                  {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",null);
-                   RESULT=nuevo;
+                   nuevo=new ArrayList<Variable>();
+                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,null);
+                   RESULT=newMetodo;
                 :}
            |voiid:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
                 {: 
+                   nuevo=new ArrayList<Variable>();
                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,"",cf1);
-                   RESULT=nuevo;
+                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,null,cf1);
+                   RESULT=newMetodo;
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea llavec 
                 {: 
-                   ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,null);
-                   RESULT=nuevo;
+                   nuevo=new ArrayList<Variable>();
+                   ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,null);
+                   RESULT=newMetodo;
                 :}
            |voiid:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec 
                 {: 
+                  nuevo=new ArrayList<Variable>();
                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
-                  ArrayList<Metodo> nuevo=almacenar_metodos(v,i,param,cf1);
-                  RESULT=nuevo;
+                  ArrayList<Metodo> newMetodo=almacenar_metodos(v,i,param,cf1);
+                  RESULT=newMetodo;
                 :}
            |TIPODATOS:v id:i para parc llavea llavec
-                 {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,"");
-                   RESULT=nuevo;
+                 {:
+                   nuevo=new ArrayList<Variable>();
+                   ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,null);
+                   RESULT=newFuncion;
                 :}  
            |TIPODATOS:v id:i para parc llavea CUERPO_FUNCIONES:cf llavec
-                  {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,"");
-                   RESULT=nuevo;
+                  {:
+                    nuevo=new ArrayList<Variable>();
+                    ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList 
+                    ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,null,cf1);
+                    RESULT=newFuncion;
                 :}  
            |TIPODATOS:v id:i para PARAMETROS:param parc llavea llavec 
-                {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,param);
-                   RESULT=nuevo;
+                {:
+                   nuevo=new ArrayList<Variable>();
+                   ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,null);
+                   RESULT=newFuncion;
                 :}  
-           |TIPODATOS:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES llavec
-                {: ArrayList<Funcion> nuevo=almacenar_funciones(v,i,param);
-                   RESULT=nuevo;
+           |TIPODATOS:v id:i para PARAMETROS:param parc llavea CUERPO_FUNCIONES:cf llavec
+                {: 
+                   nuevo=new ArrayList<Variable>();
+                   ArrayList cf1 = (ArrayList) cf; //Casteo de object a arrayList
+                   ArrayList<Funcion> newFuncion=almacenar_funciones(v,i,param,cf1);
+                   RESULT=newFuncion;
                 :}  
 ;
 
