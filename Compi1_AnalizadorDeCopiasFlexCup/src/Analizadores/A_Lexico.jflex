@@ -136,9 +136,8 @@ ComentarioLinea =  "/" "/" [^}\n]*
  {id}        { System.out.println("Reconocio "+yytext()+" id"); return new Symbol(Simbolos.id, yycolumn, yyline, yytext()); }
  {decimal}   { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(Simbolos.decimal, yycolumn, yyline, yytext()); }
  {cadena}    { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext()); }
+
 //{ComentarioLinea}            {  System.out.println("Reconocio "+yytext()+" coment"); return new Symbol(Simbolos.cadena, yycolumn, yyline, yytext());}
-
-
 //------> Espacios
 [ \t\r\n\f]                  {/* Espacios en blanco, se ignoran */}
 //{ComentarioMultiLinea}       { /* ignorar */ }
