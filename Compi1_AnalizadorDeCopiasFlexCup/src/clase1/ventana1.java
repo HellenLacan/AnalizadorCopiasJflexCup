@@ -7,9 +7,15 @@ package clase1;
 
 import Analizadores.Analizador_Lexico;
 import Analizadores.Sintactico;
+import Bases.Clase;
 import static clase1.Clase1.createAndShowGUI;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -88,22 +94,74 @@ public class ventana1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
 
-        try {
+        //*************************ABRIENDO ARCHIVO 1 Y ANALIZANDOLO****************************
+        File folder1 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto1");
+        File[] listOfFiles1 = folder1.listFiles();
 
-            Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(jTextArea1.getText()))));
-            sintactico.parse();
-            //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
-            //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
-            this.jLabel1.setText("Resultado " + sintactico.resultado);
-            System.out.println("Generados automaticamente");
-        } catch (Exception ex) {
-            Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
+        ArrayList<Archivo> arrayArchivo1 = new ArrayList<Archivo>();
+        ArrayList<Clase> arrayClasesArchivo1 = new ArrayList<Clase>();
+
+        for (File file : listOfFiles1) {
+            Archivo miArchivo1 = new Archivo();
+            if (file.isFile()) {
+                String path = file.getAbsolutePath();
+                System.out.println("*********" + path + "**********");
+                System.out.println(file.getName());
+                try {
+                    String contenido = "";
+                    contenido = new String(Files.readAllBytes(Paths.get(path)));
+                    miArchivo1.setContenido(contenido);
+                    miArchivo1.setNombre(file.getName());
+                    miArchivo1.setPath(path);
+                    arrayArchivo1.add(miArchivo1);
+
+                    Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(miArchivo1.getContenido()))));
+                    Clase misClasesArchivo1 = (Clase) sintactico.parse().value;
+                    //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
+                    //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
+                    this.jLabel1.setText("Resultado " + sintactico.resultado);
+                    arrayClasesArchivo1.add(misClasesArchivo1);
+                    System.out.println("Generados automaticamente");
+
+                } catch (Exception ex) {
+                    Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
+        //***************ABRIENDO PROYECTO 2***************
+        File folder2 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto2");
+        File[] listOfFiles2 = folder1.listFiles();
 
+        ArrayList<Archivo> arrayArchivo2 = new ArrayList<Archivo>();
+        ArrayList<Clase> ArrayClasesArchivo2 = new ArrayList<Clase>();
+
+        for (File file : listOfFiles2) {
+            Archivo miArchivo2 = new Archivo();
+            if (file.isFile()) {
+                String path2 = file.getAbsolutePath();
+                System.out.println("*********" + path2 + "**********");
+                System.out.println(file.getName());
+                try {
+                    String contenido2 = "";
+                    contenido2 = new String(Files.readAllBytes(Paths.get(path2)));
+                    miArchivo2.setContenido(contenido2);
+                    miArchivo2.setNombre(file.getName());
+                    miArchivo2.setPath(path2);
+                    arrayArchivo2.add(miArchivo2);
+
+                    Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(miArchivo2.getContenido()))));
+                    Clase misClasesArchivo2 = (Clase) sintactico.parse().value;
+                    this.jLabel1.setText("Resultado " + sintactico.resultado);
+                    ArrayClasesArchivo2.add(misClasesArchivo2);
+                    System.out.println("Generados automaticamente");
+
+                } catch (Exception ex) {
+                    Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
