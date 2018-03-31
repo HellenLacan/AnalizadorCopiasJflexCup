@@ -17,7 +17,6 @@ public class Metodo {
     private String tipo_dato="";
     private String nombre="";    
     private int no_lineas=0;
-    private Object vars=null;
     private ArrayList<Parametro> arrayParametros = new ArrayList<Parametro>();
     private ArrayList<Variable> arrayVariables = new ArrayList<Variable>();
 
@@ -25,7 +24,6 @@ public class Metodo {
         this.tipo_dato=tipo_dato;
         this.nombre=nombre;
         this.arrayParametros=arrayParametros;
-        this.vars=vars;
     }
     
     public Metodo(String tipo_dato, String nombre, ArrayList<Parametro> arrayParametros,ArrayList<Variable> ArrayVariables){
@@ -75,6 +73,14 @@ public class Metodo {
 
     public void setArrayParametros(ArrayList<Parametro> arrayParametros) {
         this.arrayParametros = arrayParametros;
+    }
+
+    public ArrayList<Variable> getArrayVariables() {
+        return arrayVariables;
+    }
+
+    public void setArrayVariables(ArrayList<Variable> arrayVariables) {
+        this.arrayVariables = arrayVariables;
     }
 
     

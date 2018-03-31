@@ -5,10 +5,11 @@
  */
 package clase1;
 
+import BasesRepetidas.*;
 import Analizadores.Analizador_Lexico;
 import Analizadores.Sintactico;
-import Bases.Clase;
-import static clase1.Clase1.createAndShowGUI;
+import Bases.*;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -97,6 +98,7 @@ public class ventana1 extends javax.swing.JFrame {
 
         //*************************ABRIENDO ARCHIVO 1 Y ANALIZANDOLO****************************
         File folder1 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto1");
+
         File[] listOfFiles1 = folder1.listFiles();
 
         ArrayList<Archivo> arrayArchivo1 = new ArrayList<Archivo>();
@@ -162,7 +164,154 @@ public class ventana1 extends javax.swing.JFrame {
                 }
             }
         }
+
+        //*/////////////REALIZANDO COMPARACION************************
+        String clase1 = "";
+        String clase2 = "";
+        String clasesRepetidas = "";
+        String Funciones1 = "";
+        String Funciones2 = "";
+        String FuncionesRepetidas = "";
+
+        ArrayList<claseRepetida> miclaseRep = new ArrayList<claseRepetida>();
+        ArrayList<variableRepetida> arrayMiVarRep = new ArrayList<variableRepetida>();
+        ArrayList<funcionRepetida> arrayFunctionRep = new ArrayList<funcionRepetida>();
+
+        for (Clase itemClass : arrayClasesArchivo1) {
+            for (Clase itemClass2 : ArrayClasesArchivo2) {
+                clase1 = clase1 + itemClass.getNombre() + ", ";
+                clase2 = clase2 + itemClass2.getNombre() + ", ";
+                //Comparando clases
+                if (itemClass.getNombre().equals(itemClass2.getNombre())) {
+                    claseRepetida miclase = new claseRepetida();
+                    miclase.nombre = itemClass.getNombre();
+                    miclaseRep.add(miclase);
+                }
+
+                //Funciones Repetidas
+                for (Funcion itemFun1 : itemClass.getArrayFunciones()) {
+                    for (Funcion itemFun2 : itemClass2.getArrayFunciones()) {
+                        if ((itemFun1.getNombre().equals(itemFun2.getNombre())) && itemFun1.getTipo_dato().equals(itemFun2.getTipo_dato())) {
+
+                            //Parametros repetidos
+                            int contadorParam = 0;
+
+                            if ((itemFun1.getArrayParametros() == null && itemFun2.getArrayParametros() != null) || (itemFun1.getArrayParametros() != null && itemFun2.getArrayParametros() == null)) {
+
+                            } else if (itemFun1.getArrayParametros() == null && itemFun2.getArrayParametros() == null) {
+                                funcionRepetida miFuncion = new funcionRepetida();
+                                miFuncion.nombre = itemFun1.getNombre();
+                                miFuncion.tipo = itemFun1.getTipo_dato();
+                                miFuncion.parametros = 0;
+                                arrayFunctionRep.add(miFuncion);
+                            } else {
+                                for (Parametro itemParam1 : itemFun1.getArrayParametros()) {
+                                    for (Parametro itemParam2 : itemFun2.getArrayParametros()) {
+                                        if ((itemParam1.getNombre().equals(itemParam2.getNombre())) && itemParam1.getTipo().equals(itemParam2.getTipo())) {
+                                            contadorParam += 1;
+                                        }
+                                    }
+                                }
+                                //si no trae los dos parametros iguales retorna que no son repetidos
+                                if (contadorParam == itemFun1.getArrayParametros().size()) {
+                                    funcionRepetida miFuncion = new funcionRepetida();
+                                    miFuncion.nombre = itemFun1.getNombre();
+                                    miFuncion.tipo = itemFun1.getTipo_dato();
+                                    miFuncion.parametros = contadorParam;
+                                    arrayFunctionRep.add(miFuncion);
+                                }
+                            }
+
+                            //Variables repetidas
+                            if ((itemFun1.getArrayVariables() != null && itemFun2.getArrayVariables() == null) || (itemFun1.getArrayVariables() == null && itemFun2.getArrayVariables() != null)) {
+
+                            } else if (itemFun1.getArrayVariables() != null && (itemFun2.getArrayVariables() != null)) {
+                                for (Variable itemVar1 : itemFun1.getArrayVariables()) {
+                                    for (Variable itemVar2 : itemFun2.getArrayVariables()) {
+                                        if ((itemVar1.getNombre().equals(itemVar2.getNombre())) && (itemVar1.getTipo().equals(itemVar2.getTipo())) && (itemFun1.getNombre().equals(itemFun2.getNombre()) && (itemClass.getNombre().equals(itemClass2.getNombre())))) {
+                                            variableRepetida miVariable = new variableRepetida();
+                                            miVariable.nombre = itemVar1.getNombre();
+                                            miVariable.tipo = itemVar1.getTipo();
+                                            miVariable.funcion = itemFun1.getNombre();
+                                            miVariable.clase = itemClass.getNombre();
+                                            arrayMiVarRep.add(miVariable);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Metodos repetidos
+                for (Metodo itemMet1 : itemClass.getArrayMetodos()) {
+                    for (Metodo itemMet2 : itemClass2.getArrayMetodos()) {
+                        if ((itemMet1.getNombre().equals(itemMet2.getNombre())) && itemMet1.getTipo_dato().equals(itemMet2.getTipo_dato())) {
+                            //Parametros repetidos
+                            int contadorParam = 0;
+
+                            if ((itemMet1.getArrayParametros() == null && itemMet2.getArrayParametros() != null) || (itemMet1.getArrayParametros() != null && itemMet2.getArrayParametros() == null)) {
+
+                            } else if (itemMet1.getArrayParametros() == null && itemMet2.getArrayParametros() == null) {
+                                funcionRepetida miFuncion = new funcionRepetida();
+                                miFuncion.nombre = itemMet1.getNombre();
+                                miFuncion.tipo = itemMet1.getTipo_dato();
+                                miFuncion.parametros = 0;
+                                arrayFunctionRep.add(miFuncion);
+                            } else {
+                                for (Parametro itemParam1 : itemMet1.getArrayParametros()) {
+                                    for (Parametro itemParam2 : itemMet2.getArrayParametros()) {
+                                        if ((itemParam1.getNombre().equals(itemParam2.getNombre())) && itemParam1.getTipo().equals(itemParam2.getTipo())) {
+                                            contadorParam += 1;
+                                        }
+                                    }
+                                }
+                                //si no trae los dos parametros iguales retorna que no son repetidos
+                                if (contadorParam == itemMet1.getArrayParametros().size()) {
+                                    funcionRepetida miFuncion = new funcionRepetida();
+                                    miFuncion.nombre = itemMet1.getNombre();
+                                    miFuncion.tipo = itemMet1.getTipo_dato();
+                                    miFuncion.parametros = contadorParam;
+                                    arrayFunctionRep.add(miFuncion);
+                                }
+                            }
+
+                            //Variables repetidas
+                            if ((itemMet1.getArrayVariables() != null && itemMet2.getArrayVariables() == null) || (itemMet1.getArrayVariables() == null && itemMet2.getArrayVariables() != null)) {
+
+                            } else if (itemMet1.getArrayVariables() != null && (itemMet2.getArrayVariables() != null)) {
+                                for (Variable itemVar1 : itemMet1.getArrayVariables()) {
+                                    for (Variable itemVar2 : itemMet2.getArrayVariables()) {
+                                        if ((itemVar1.getNombre().equals(itemVar2.getNombre())) && (itemVar1.getTipo().equals(itemVar2.getTipo())) && (itemMet1.getNombre().equals(itemMet2.getNombre()) && (itemClass.getNombre().equals(itemClass2.getNombre())))) {
+                                            variableRepetida miVariable = new variableRepetida();
+                                            miVariable.nombre = itemVar1.getNombre();
+                                            miVariable.tipo = itemVar1.getTipo();
+                                            miVariable.funcion = itemMet1.getNombre();
+                                            miVariable.clase = itemClass.getNombre();
+                                            arrayMiVarRep.add(miVariable);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Estas son clases Repetidas: " + clasesRepetidas);
+        System.out.println("Estas son funciones repetidas " + FuncionesRepetidas);
+        
+        Resultante miResultante= new Resultante("50",miclaseRep,arrayFunctionRep,arrayMiVarRep);
+        ArrayList<Resultante> arrayJson= new ArrayList<Resultante>();
+        arrayJson.add(miResultante);
+        
+        String json = new Gson().toJson(arrayJson);
+        System.out.println(json);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public boolean ValidarVariablesRepetidas() {
+        return false;
+    }
 
     /**
      * @param args the command line arguments
