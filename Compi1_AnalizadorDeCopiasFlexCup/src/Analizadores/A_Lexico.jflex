@@ -108,7 +108,6 @@ ComentarioLinea =  "/" "/" [^}\n]*
 ")"         { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
 "\""         { System.out.println("Reconocio "+yytext()+" comilla"); return new Symbol(Simbolos.parc, yycolumn, yyline, yytext()); }
 
-
 ">"         { System.out.println("Reconocio "+yytext()+" mayor"); return new Symbol(Simbolos.mayor, yycolumn, yyline, yytext()); }
 "<"         { System.out.println("Reconocio "+yytext()+" menor"); return new Symbol(Simbolos.menor, yycolumn, yyline, yytext()); }
 "="         { System.out.println("Reconocio "+yytext()+" asignacion"); return new Symbol(Simbolos.asignacion, yycolumn, yyline, yytext()); }

@@ -2995,5 +2995,4 @@ class CUP$Sintactico$actions {
                                CUP$Sintactico$top);
     }
 }
-
 }

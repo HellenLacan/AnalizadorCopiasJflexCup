@@ -11,12 +11,19 @@ import Analizadores.Sintactico;
 import Bases.*;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -94,10 +101,11 @@ public class ventana1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+    public static String AnalisisArchivos(String path_1, String path_2){
+    
         //*************************ABRIENDO ARCHIVO 1 Y ANALIZANDOLO****************************
-        File folder1 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto1");
+        //File folder1 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto1");
+        File folder1 = new File(path_1);
 
         File[] listOfFiles1 = folder1.listFiles();
 
@@ -122,7 +130,7 @@ public class ventana1 extends javax.swing.JFrame {
                     Clase misClasesArchivo1 = (Clase) sintactico.parse().value;
                     //new LexerXML(new BufferedReader( new StringReader(jTextPane1.getText())));
                     //SE INICIA LA COMPILAC ION LEXICO Y SINTACTICO
-                    this.jLabel1.setText("Resultado " + sintactico.resultado);
+                    //this.jLabel1.setText("Resultado " + sintactico.resultado);
                     arrayClasesArchivo1.add(misClasesArchivo1);
                     System.out.println("Generados automaticamente");
 
@@ -133,8 +141,10 @@ public class ventana1 extends javax.swing.JFrame {
         }
 
         //***************ABRIENDO PROYECTO 2***************
-        File folder2 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto2");
-        File[] listOfFiles2 = folder1.listFiles();
+       // File folder2 = new File("C:\\Users\\Hellen\\Desktop\\Proyecto2");
+        File folder2 = new File(path_2);
+
+        File[] listOfFiles2 = folder2.listFiles();
 
         ArrayList<Archivo> arrayArchivo2 = new ArrayList<Archivo>();
         ArrayList<Clase> ArrayClasesArchivo2 = new ArrayList<Clase>();
@@ -155,7 +165,7 @@ public class ventana1 extends javax.swing.JFrame {
 
                     Sintactico sintactico = new Sintactico(new Analizador_Lexico(new BufferedReader(new StringReader(miArchivo2.getContenido()))));
                     Clase misClasesArchivo2 = (Clase) sintactico.parse().value;
-                    this.jLabel1.setText("Resultado " + sintactico.resultado);
+//                    this.jLabel1.setText("Resultado " + sintactico.resultado);
                     ArrayClasesArchivo2.add(misClasesArchivo2);
                     System.out.println("Generados automaticamente");
 
@@ -300,13 +310,20 @@ public class ventana1 extends javax.swing.JFrame {
         }
         System.out.println("Estas son clases Repetidas: " + clasesRepetidas);
         System.out.println("Estas son funciones repetidas " + FuncionesRepetidas);
-        
-        Resultante miResultante= new Resultante("50",miclaseRep,arrayFunctionRep,arrayMiVarRep);
-        ArrayList<Resultante> arrayJson= new ArrayList<Resultante>();
+
+        Resultante miResultante = new Resultante("50", miclaseRep, arrayFunctionRep, arrayMiVarRep);
+        ArrayList<Resultante> arrayJson = new ArrayList<Resultante>();
         arrayJson.add(miResultante);
-        
+
+        //Creacion del Json
         String json = new Gson().toJson(arrayJson);
-        System.out.println(json);
+        
+        return json;
+    }
+    
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public boolean ValidarVariablesRepetidas() {
@@ -317,38 +334,64 @@ public class ventana1 extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
+
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            
+            /* Set the Nimbus look and feel */
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+            * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+            */
+            try {
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
                 }
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            //</editor-fold>
+            
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new ventana1().setVisible(true);
+                    
+                    //createAndShowGUI();
+                }
+            });
+            
+            String number, temp;
+            ServerSocket s1 = new ServerSocket(1342);
+            Socket ss = s1.accept();
+            Scanner sc = new Scanner(ss.getInputStream());
+            number = sc.nextLine();
+            String[] params=number.split(";");
+            temp=AnalisisArchivos(params[0],params[1]);
+            PrintStream p = new PrintStream(ss.getOutputStream());
+            p.println(temp);
+            
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ventana1.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ventana1().setVisible(true);
-                //createAndShowGUI();
 
-            }
-        });
+        
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
